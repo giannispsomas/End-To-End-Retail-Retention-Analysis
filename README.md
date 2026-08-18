@@ -62,7 +62,7 @@ pip install -r requirements.txt
    - **Server:** `<your_server_name>\SQLEXPRESS` (e.g. `localhost\SQLEXPRESS` for a local instance)
    - **Database:** `<your_database_name>`
 4. **Data Connectivity mode:** Import (recommended given dataset size ~43.5 MB — DirectQuery is unnecessary here)
-5. **Authentication:** Windows Authentication (default) — do not commit SQL login credentials to this repo under any circumstances
+5. **Authentication:** Choose Windows Authentication (default)
 6. Select the relevant table(s)/view(s) and click **Load**
 
 > ⚠️ Never commit a `.pbix` file containing live/cached credentials or connection strings pointing to a real server. If sharing the `.pbix`, first go to **File → Options and Settings → Data source settings** and clear stored credentials.
