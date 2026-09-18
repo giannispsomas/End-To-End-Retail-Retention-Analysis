@@ -109,6 +109,12 @@ alter table dim.customer add constraint uniq_customer_id unique (customer_id);
 alter table dim.product add constraint uniq_product_id unique (stock_code);
 ```
 
+## Entity-Relationship Diagram
+
+The star shape: `sales (fact)` sits at the center, with `date (dim)`, `customer (dim)`, and `product (dim)` each connected via a single FK relationship — one-to-many from each dimension into the fact table.
+
+<img width="1405" height="812" alt="Star Schema Diagram (End-To-End Online Retail Analysis)" src="https://github.com/user-attachments/assets/188e97d4-e9e4-4109-9f7e-fc7e92d030d6" />
+
 ## Unknown Members
 
 | Dimension | Surrogate key | Natural key | Descriptive attributes |
