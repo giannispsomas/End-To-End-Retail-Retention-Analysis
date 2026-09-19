@@ -143,7 +143,8 @@ alter table dim.country add constraint uniq_country_name unique (country_name);
 
 The star shape: `sales (fact)` sits at the center, with `date (dim)`, `customer (dim)`, `product (dim)`, and **`country (dim)`** each connected via a single FK relationship — one-to-many from each dimension into the fact table.
 
-*(Diagram needs regenerating to add the fourth `dim.country` table.)*
+<img width="1475" height="791" alt="star_schema_diagram" src="https://github.com/user-attachments/assets/a9211292-fda5-44ea-9b2b-ad8d348a0bb4" />
+
 
 ## Unknown Members
 
