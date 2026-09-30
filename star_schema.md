@@ -333,6 +333,45 @@ This confirms the schema supports a typical total-sales-by-year-and-product quer
 | `TransactionType` | `transaction_type` | Direct copy |
 | `IsCensored`, first Sale date | `dim.customer.is_censored`, `dim.customer.first_purchase_date` | Computed once per customer through the censoring lookup, not copied onto every fact row |
 
+## Reporting Layer
+
+Power BI and the Python notebooks do not read `fact.sales` directly. They read the `rpt` schema, which sits on top of the star schema. The three views form a rollup chain, and each one is built by summarizing the one above it.
+
+| Object | One row = | Built from |
+|---|---|---|
+| `rpt.vw_valid_sales` | one line item (one product on one invoice) | `fact.sales` joined to the dimensions |
+| `rpt.vw_orders` | one order (one invoice) | `rpt.vw_valid_sales`, grouped by invoice |
+| `rpt.vw_customer_summary` | one customer | `rpt.vw_orders`, grouped by customer |
+
+**`rpt.vw_valid_sales`** keeps only `transaction_type = 'Sale'`, `is_non_product_code = 0` and `price > 0`. Cancellations, stock adjustments, non-product lines (postage, fees) and zero prices are removed. This is the same rule that defines the 1,003,352-row valid set in the reconciliation check above, and it is the source of the £19.64M revenue figure.
+
+**`rpt.vw_orders`** turns line items into orders. Use it, or `COUNT(DISTINCT invoice)`, for order counts. `COUNT(*)` on the line-item view is not an order count, because 11,144 invoice and product pairs repeat across lines. Key columns: `order_date`, `order_year_month`, `line_count`, `distinct_products`, `total_quantity`, `order_revenue`, `has_bulk_line`.
+
+**`rpt.vw_customer_summary`** has one row per customer, plus one guest row with `customer_key = -1` (every checkout without a Customer_ID collapsed into a single placeholder, not a real person). Filter `customer_key <> -1` for every customer-level question. Key columns: `order_count`, `total_revenue`, `avg_order_value`, `first_order_date`, `second_order_date`, `days_to_second_order`, `is_repeat_customer` (1 when `order_count >= 2`), `customer_segment`, `is_censored`.
+
+**Choosing a view.** Decide what is being counted first: a product, an order or a customer. Start from the view at that grain. Most questions need one view, and two views are joined only when a column lives at a different level. Gross versus net revenue is the exception, because it needs `fact.sales` itself (`transaction_type`, `sales_amount`).
+
+### RFM input: `rpt.calculateRFMtable`
+
+A stored procedure that returns one row per registered customer with the three RFM inputs used by the clustering notebook (`python/rfmcustseg.ipynb`). Guests (`customer_key = -1`) are excluded.
+
+| Column | Definition |
+|---|---|
+| Recency | Days between the customer's most recent order and the latest order date in the whole dataset. The dataset's last date stands in for "today" because the data is historical. Lower means more recently active. |
+| Frequency | The customer's total number of orders (`order_count`). |
+| Monetary | The customer's total revenue (`total_revenue`). |
+
+Rows are ordered by Monetary, highest first. The script is `sql/04_rfm_table.sql`.
+
+### Tables used by the dashboard
+
+| Table | Rows | Contents |
+|---|---|---|
+| `rpt.customer_segments` | 5,852 | One row per identified customer with the RFM segment. This is the table behind the Customer Segmentation and Churn Risk pages. |
+| `rpt.cohort_retention` | 325 | One row per cohort and month since first purchase: 25 monthly cohorts, months 0 to 24 (25 + 24 + ... + 1 = 325). This is the table behind the Cohort and Retention page. |
+
+Two names to keep apart: `customer_segment` (Wholesale or Retail) is a column on `dim.customer` and the views, while the RFM `Segment` comes from `rpt.customer_segments`. See [Assumptions_and_Limitations.md](Assumptions_and_Limitations.md) for both definitions.
+
 ## Maintenance
 
 **Load strategy: full refresh.** The source is a static historical extract, not a live feed, so the schema is rebuilt and reloaded from scratch on each run instead of loading incrementally.
