@@ -1,6 +1,6 @@
 # Dashboard Guide
  
-The Power BI report has six pages. Each page answers one business question and opens with a one-line takeaway. The file is [`powerbi/`](powerbi/) in this repo. Measure formulas are in [`dax_measures.md`](dax_measures.md).
+The Power BI report has six pages. Each page answers one business question and opens with a one-line takeaway. The file is [`power_bi/`](power_bi/) in this repo. Measure formulas are in [`dax_measures.md`](dax_measures.md).
  
 ## Contents
  
@@ -43,7 +43,7 @@ The guest customer (`customer_key = -1`) has its `customer_id` set to -1 in Powe
  
 ## Page 1: Business Overview
  
-![Business Overview](images/page1_business_overview.png)
+![Business Overview](power_bi/images/1_Business_Overview.png)
  
 **Takeaway:** revenue is heavily UK-concentrated (85.5%) with a recurring Q4 seasonal spike. December 2011 is an incomplete month.
  
@@ -60,7 +60,7 @@ The guest customer (`customer_key = -1`) has its `customer_id` set to -1 in Powe
  
 ## Page 2: Products
  
-![Products](images/page2_products.png)
+![Products](power_bi/images/2_Products.png)
  
 **Takeaway:** revenue is spread across a long tail of products. About 22% of products generate 80% of revenue.
  
@@ -76,7 +76,7 @@ The guest customer (`customer_key = -1`) has its `customer_id` set to -1 in Powe
  
 ## Page 3: Repeat Customer Behavior
  
-![Repeat Customer Behavior](images/page3_repeat_customer_behavior.png)
+![Repeat Customer Behavior](power_bi/images/3_Repeat_Customer_Behavior.png)
  
 **Takeaway:** repeat customers are 72% of the base but generate 97% of revenue, while one-time buyers (28% of customers) contribute just 3%.
  
@@ -93,7 +93,7 @@ The guest customer (`customer_key = -1`) has its `customer_id` set to -1 in Powe
  
 ## Page 4: Customer Segmentation
  
-![Customer Segmentation](images/page4_customer_segmentation.png)
+![Customer Segmentation](power_bi/images/4_Customer_Segmentation.png)
  
 **Takeaway:** Wholesale/B2B outliers and Potential Champions are small in number but drive disproportionate revenue, while Churned/Lost customers make up a large share of the base.
  
@@ -110,7 +110,7 @@ The guest customer (`customer_key = -1`) has its `customer_id` set to -1 in Powe
  
 ## Page 5: Cohort and Retention
  
-![Cohort and Retention](images/page5_cohort_and_retention.png)
+![Cohort and Retention](power_bi/images/5_Cohort_and_Retention.png)
  
 **Takeaway:** retention peaks around month 2 (about 22%), then declines steadily, dropping to roughly 18% by month 6.
  
@@ -125,7 +125,7 @@ The guest customer (`customer_key = -1`) has its `customer_id` set to -1 in Powe
  
 ## Page 6: Churn Risk
  
-![Churn Risk](images/page6_churn_risk.png)
+![Churn Risk](power_bi/images/6_Churn_Risk.png)
  
 **Takeaway:** 51% of customers are churned, which represents £3.30M in revenue at risk, concentrated in the Churned/Lost and Core/Average segments.
  
@@ -144,4 +144,3 @@ The guest customer (`customer_key = -1`) has its `customer_id` set to -1 in Powe
 1. Open the `.pbix` file in Power BI Desktop. Import mode holds a copy of the data, so the report opens without a database connection.
 2. To refresh from SQL Server, restore the database using the scripts in [`sql/`](sql/), then point the data source at your own server (Home → Transform data → Data source settings).
 3. The Year slicers filter the pages that have one. Pages without a slicer show the full period.
- 
