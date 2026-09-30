@@ -1,56 +1,72 @@
 # Data Profiling
 
 ## Overview
-- Dataset source: https://archive.ics.uci.edu/dataset/502/online+retail+ii
-- Dataset size: 43.5 MB
-- Tool: SQL Server (T-SQL)
-- Purpose: Identify data quality issues before cleaning
-- Total raw row count: 1,044,848
 
-## Schema Overview
+- **Dataset source:** https://archive.ics.uci.edu/dataset/502/online+retail+ii
+- **Dataset size:** 43.5 MB
+- **Tool:** SQL Server (T-SQL)
+- **Purpose:** identify data quality issues before cleaning
+- **Raw row count:** 1,044,848
 
-| Column      | Data Type |
+## Schema
+
+| Column | Data type |
 |---|---|
-| Invoice     | nvarchar  |
-| StockCode   | nvarchar  |
-| Description | nvarchar  |
-| Quantity    | bigint    |
+| Invoice | nvarchar |
+| StockCode | nvarchar |
+| Description | nvarchar |
+| Quantity | bigint |
 | InvoiceDate | datetime2 |
-| Price       | float     |
-| Customer_ID | int       |
-| Country     | nvarchar  |
+| Price | float |
+| Customer_ID | int |
+| Country | nvarchar |
+
+## Summary of Issues
+
+| Column | Main issues found | How cleaning handled it (see [data_cleaning.md](data_cleaning.md)) |
+|---|---|---|
+| Invoice | Full-row duplicates, 19,165 cancellation invoices, 6 rows with an 'A' prefix | Duplicates removed. Cancellations classified through `TransactionType`, not deleted. 'A' rows kept as Sales. |
+| StockCode | 61 non-product codes, 11 codes with special characters, 1 row with whitespace | Whitespace trimmed. Non-product codes flagged with `IsNonProductCode`. |
+| Description | 4,275 nulls, 206,844 rows with whitespace, junk and very short values, 1,190 StockCodes with several Descriptions | Nulls, short and junk values removed. Whitespace trimmed, text uppercased, one canonical Description per StockCode. |
+| Price | 5 nulls, 6,024 zero-price rows | Rounded to 3 decimals. Zero-price rows flagged with `PriceFlag`. |
+| InvoiceDate | 83 invoices with two distinct dates | Earliest date kept for each invoice. |
+| Quantity | 22,557 negative values, 3,394 rows that break the 'C'-prefix rule | `TransactionType` classification. Outliers flagged with `OutliersInQnt`. |
+| Customer_ID | 235,287 nulls (22.52%), 12 customers in two countries | Nulls flagged as Guest, not dropped. Most frequent country kept for each customer. |
+| Country | 756 'Unspecified' rows, 61 'European Community' rows | Not changed. The 43 countries are kept as they are. |
+
+---
 
 ## Column-by-Column Findings
 
 ### Invoice
+
 - Nulls: 0
 - Blank rows: 0
-- Leading/trailing whitespace: 0
-- Duplicates: 40,058
-- Cancellation prefix (the 'C' prefix): 19,165
-- Other prefixes (the 'A' prefix): 6
-- Data length:
+- Leading or trailing whitespace: 0
+- Duplicates: 40,058. An invoice has one row per line item, so repeated invoice numbers are expected. Full-row duplicates are covered under [Cross-Column Findings](#cross-column-findings).
+- Cancellation prefix ('C'): 19,165
+- Other prefix ('A'): 6
+- Value length:
 
 | invoice_data_length | number_of_rows |
 |---|---|
 | 6 | 1,025,677 |
 | 7 | 19,171 |
 
-**FINAL NOTES**
-
-Issues: 40,058 duplicates, 19,165 cancellations (needs TransactionType flag), 6 rows with unexplained 'A' prefix (inspect individually).
+**Issues:** 19,165 cancellations need a `TransactionType` flag, and 6 rows with an unexplained 'A' prefix need individual inspection.
 
 ### StockCode
+
 - Blank rows: 0
 - Nulls: 0
 - Duplicates: 4,744 rows
-- Leading/trailing whitespace: 1 row ('47503J')
+- Leading or trailing whitespace: 1 row ('47503J')
 - Casing inconsistency (non-uppercase): 0
 - Unexpected special characters: 11 distinct StockCodes
 - Internal whitespace: 0
-- Non-product placeholder codes (not matching 4-5 digit pattern): 61 distinct StockCodes
+- Non-product placeholder codes (not matching the 4 to 5 digit pattern): 61 distinct StockCodes
 - Distinct StockCode count: 5,131
-- Value length distribution:
+- Value length:
 
 | stockcode_length | num_of_rows |
 |---|---|
@@ -65,16 +81,19 @@ Issues: 40,058 duplicates, 19,165 cancellations (needs TransactionType flag), 6 
 | 9 | 67 |
 | 12 | 200 |
 
-**FINAL NOTES**
+**Issues:** 61 non-product placeholder codes, 11 codes with special characters, and 1 row with whitespace. Manual review found two groups:
+- Genuine non-product codes: POST, DOT, M, C2, C3, D, B, S, CRUK, BANK CHARGES, AMAZONFEE, ADJUST, ADJUST2, TEST001, TEST002, and the gift_0001_XX series.
+- Legitimate products in a different code format: DCGS% and SP1002.
 
-Issues: 61 non-product placeholder codes, 11 codes with special characters, 1 row with whitespace. Manual review confirmed a mix of genuine non-product codes (POST, DOT, M, C2, C3, D, B, S, CRUK, BANK CHARGES, AMAZONFEE, ADJUST, ADJUST2, TEST001, TEST002, gift_0001_XX series) and legitimate products using a different code format (DCGS%, SP1002) that don't match the standard digit-pattern rule. Everything else clean.
+Everything else is clean.
 
 ### Description
+
 - Nulls: 4,275
 - Blanks: 0
-- Rows with leading/trailing whitespace: 206,844
-- Distinct values with leading/trailing whitespace: 953
-- Very short descriptions (≤3 chars):
+- Rows with leading or trailing whitespace: 206,844 (953 distinct values)
+- Duplicates: 5,259
+- Very short descriptions (3 characters or fewer):
 
 | Description | descr_length |
 |---|---|
@@ -85,7 +104,6 @@ Issues: 61 non-product placeholder codes, 11 codes with special characters, 1 ro
 | MIA | 3 |
 | ??? | 3 |
 
-- Duplicates: 5,259
 - Casing breakdown:
 
 | casing_type | num_rows |
@@ -94,134 +112,130 @@ Issues: 61 non-product placeholder codes, 11 codes with special characters, 1 ro
 | ALL LOWERCASE | 725 |
 | MIXED CASE | 9,416 |
 
-- StockCode -> multiple Descriptions: 1,190 StockCodes
-- Description -> multiple StockCodes: roughly 54 to 57 distinct descriptions affected (split between lowercase- and uppercase-variant descriptions; exact split unconfirmed, minor and superseded by the cleaning fix)
-- Placeholder/junk values found (damage, missing, test, sample, ?, amazon, ebay, etc.): 174
+- StockCodes with more than one Description: 1,190. Cleaning removed the null, short and junk rows and normalized whitespace and case before the canonical lookup was built, and 715 StockCodes were still affected at that point.
+- Descriptions linked to more than one StockCode: about 54 to 57 distinct descriptions. The lookup fixed this entirely.
+- Placeholder or junk values (damage, missing, test, sample, ?, amazon, ebay and similar): 174
 
-**FINAL NOTES**
-
-Issues: 4,275 nulls, 5,259 duplicates, 174 placeholder values, 206,844 rows with whitespace. Not a reliable grouping key — 1,190 StockCodes map to multiple Descriptions. Build a canonical Description-per-StockCode lookup instead.
+**Issues:** 4,275 nulls, 5,259 duplicates, 174 placeholder values, and 206,844 rows with whitespace. Description is not a reliable grouping key, so a canonical Description per StockCode is built during cleaning.
 
 ### Price
+
 - Nulls: 5
-- Zero/negative values: 6,024 (confirmed entirely zero-price; no true negative prices exist — Min = 0)
+- Zero or negative values: 6,024 (all zero; no negative prices exist, and the minimum is 0)
 - Min: 0
 - Max: 38,970
-- Avg: 4.74
+- Average: 4.74
 - Median: 2.099
 - P95: 9.94
 - P99: 18
-- Price consistency per StockCode: 4,276 StockCodes have more than one distinct price recorded (expected — normal price variation over time, not a data quality issue on its own)
+- StockCodes with more than one distinct price: 4,276. This is expected (normal price variation over time) and is not a quality issue on its own.
 
-**FINAL NOTES**
-
-Issues: 5 nulls, 6,024 zero-price rows. Likely correlates with cancellations or non-sale transactions (samples, write-offs).
+**Issues:** 5 nulls and 6,024 zero-price rows. The zero prices likely relate to cancellations or non-sale transactions such as samples and write-offs.
 
 ### InvoiceDate
+
 - Nulls: 0
-- Date range (min/max): 2009-12-01 07:45:00 to 2011-12-09 12:50:00
+- Date range: 2009-12-01 07:45:00 to 2011-12-09 12:50:00
 - Future dates: 0
-- Time component anomalies (e.g. rows clustering at 00:00:00): No major anomalies found. A steadily descending number of rows cluster normally at random time intervals.
-- Invoices with more than one distinct date: 83 invoices with exactly 2 dates
-- Duplicate InvoiceDate values: No major anomalies found here either. One invoice which is the exception, Invoice no. 573585, with 1,114 line items all sharing the same timestamp — confirmed as one large multi-line invoice, not a data error.
+- Time anomalies (for example rows clustering at 00:00:00): none. Rows spread normally across time intervals.
+- Invoices with more than one distinct date: 83, each with exactly 2 dates
+- Duplicate InvoiceDate values: no anomalies apart from Invoice 573585, which has 1,114 line items sharing one timestamp. This is a single large multi-line invoice, not a data error.
 
-**FINAL NOTES**
-
-Issues: 83 invoices with more than one distinct date, breaking the one-invoice-one-timestamp assumption. Needs a resolution rule (earliest date chosen) before using as a join key or in date-based aggregation. Note: resolving this during cleaning surfaced 4 additional full-row duplicates that hadn't been detectable at profiling time — see Data Cleaning doc.
+**Issues:** 83 invoices have more than one date, which breaks the one-invoice-one-timestamp assumption. The earliest date is chosen before the column is used as a join key or in date aggregation. Resolving this during cleaning surfaced 4 more full-row duplicates that profiling could not detect (see [data_cleaning.md](data_cleaning.md)).
 
 ### Quantity
+
 - Nulls: 0
 - Zero values: 0
 - Negative values: 22,557
 - Min: -80,995
 - Max: 80,995
-- Avg: 9
+- Average: 9
 - Median: 3
 - P95: 30
 - P99: 100
-- Duplicate Quantity values: Frequency is normal, no major outliers were found
-- Cancellation vs negative Quantity alignment: strong overall correlation, but not perfect.
-- Cancelled invoices with negative/zero quantity (expected): 19,164
-- Normal invoices with positive quantity (expected): 1,022,290
-- Normal invoices with negative/zero quantity (inconsistent): 3,393 — needs investigation, these may be returns not labeled with the 'C' prefix
-- Cancelled invoices with positive quantity (inconsistent): 1 row — isolated case, worth inspecting individually
-- Extreme outliers (beyond P99): Overall normal frequency and distribution — large values turn out to be legitimate matched sale/cancellation pairs (e.g. Invoice 581483: +80995 / Invoice C581484: -80995 on the same StockCode), repeated consistently across many invoice pairs, indicating genuine bulk wholesale orders rather than data entry errors.
-- Quantity ≤ 0 vs Price sign breakdown:
-- Positive price: 19,164 rows — expected pattern (normal returns/cancellations)
-- Zero price: 3,393 rows — matches the earlier "Normal invoice + negative quantity" finding; likely stock adjustments/write-offs, not customer returns
-- Negative price: 0 rows — no double-counted adjustments found, convention holds cleanly
+- Duplicate Quantity values: normal frequency, no outliers
+- Extreme outliers (beyond P99): the large values are legitimate matched sale and cancellation pairs (for example Invoice 581483 at +80,995 and Invoice C581484 at -80,995 on the same StockCode), repeated across many invoice pairs. They indicate genuine bulk wholesale orders, not data entry errors.
 
-**FINAL NOTES**
+**Cancellation prefix vs quantity sign.** The two agree strongly but not perfectly.
 
-Issues: 3,394 rows break the 'C'-prefix-only cancellation assumption (3,393 normal-invoice negative quantity + 1 cancelled-invoice positive quantity). The 3,393 pair with zero price — likely stock adjustments, not returns. Supports a dedicated TransactionType classification.
+| Group | Rows | Verdict |
+|---|---|---|
+| Cancelled invoice, negative or zero quantity | 19,164 | Expected |
+| Normal invoice, positive quantity | 1,022,290 | Expected |
+| Normal invoice, negative or zero quantity | 3,393 | Inconsistent |
+| Cancelled invoice, positive quantity | 1 | Inconsistent (isolated case) |
+
+**Quantity of zero or below vs price sign**
+
+| Price | Rows | Meaning |
+|---|---|---|
+| Positive | 19,164 | Expected pattern (normal returns and cancellations) |
+| Zero | 3,393 | Same set as the inconsistent normal invoices. Likely stock adjustments or write-offs, not customer returns. |
+| Negative | 0 | No double-counted adjustments |
+
+**Issues:** 3,394 rows break the 'C'-prefix-only cancellation assumption (3,393 normal invoices with negative quantity, plus 1 cancelled invoice with positive quantity). The 3,393 have zero price and are likely stock adjustments. This supports a dedicated `TransactionType` classification.
 
 ### Customer_ID
-- Nulls: 235,287
-- Percentage of nulls: 22.51%
-- Null Customer_ID clustering by Country/cancellation status: heavily concentrated in the UK — 231,706 "Normal" + 614 "Cancelled" null-Customer_ID rows are UK, dwarfing every other country (next highest: EIRE at 1,598). This points to a systematic cause specific to the UK market (e.g. guest checkout not requiring an account) rather than random missingness, and supports flagging nulls as "Guest/Unregistered" rather than treating them as broken data.
-- Null Customer_ID breakdown by transaction type:
-- Unknown (non-cancelled) transactions: 234,568
-- Cancelled transactions: 719
-- Total matches the overall null count above
+
+- Nulls: 235,287 (22.52%)
 - Invoices mapping to more than one Customer_ID: 0
-- Min Customer_ID: 12346
-- Max Customer_ID: 18287
-- Multi-country customers: 12 Customer_IDs map to 2 distinct countries
-- Null Customer_ID vs Price sign: 5,954 rows with zero price, 229,333 rows with positive price
+- Min: 12346
+- Max: 18287
+- Customers linked to two countries: 12
+- Null Customer_ID by transaction type:
 
-**FINAL NOTES**
+| Transaction type | Rows |
+|---|---|
+| Unknown (non-cancelled) | 234,568 |
+| Cancelled | 719 |
+| **Total** | **235,287** |
 
-Issues: 22.51% nulls, concentrated in guest checkout — flag as Guest/Unregistered, don't drop. 719 null rows tied to cancellations and the zero/positive price split both feed into TransactionType. ID range is a plausible real range; 12 multi-country customers resolved via most-frequent-Country lookup.
+- Null Customer_ID by price sign: 5,954 rows with zero price and 229,333 rows with positive price.
+- Clustering by country: the nulls are heavily concentrated in the UK, with 231,706 normal and 614 cancelled null rows. The next highest country is EIRE with 1,598. This points to a systematic UK cause, such as guest checkout not requiring an account, rather than random missingness.
+
+**Issues:** 22.52% nulls concentrated in guest checkout, so they are flagged as Guest/Unregistered and not dropped. The ID range is plausible. The 12 multi-country customers are resolved with a most-frequent-country lookup.
 
 ### Country
+
 - Nulls: 0
 - Blanks: 0
-- Distinct values: 43, including 'Unspecified', 'EIRE', 'European Community'
+- Distinct values: 43, including 'Unspecified', 'EIRE' and 'European Community'
 - Naming inconsistencies: 0
-- Leading/trailing whitespace: 0
+- Leading or trailing whitespace: 0
 - Casing inconsistency: 0
-- Placeholder values: 756 rows "Unspecified", 61 rows "European Community"
+- Placeholder values: 756 rows 'Unspecified' and 61 rows 'European Community'
 
-**FINAL NOTES**
+**Issues:** the 756 'Unspecified' and 61 'European Community' rows are real transactions, so they are not excluded.
 
-Issues: bucket 756 "Unspecified" and 61 "European Community" rows as Other/Unknown rather than exclude — they're still real transactions.
+---
 
 ## Cross-Column Findings
 
-**Cancellation invoices vs negative Quantity**: strong but imperfect correlation.
-- Cancelled + negative/zero quantity (expected): 19,164
-- Normal invoice + positive quantity (expected): 1,022,290
-- Normal invoice + negative/zero quantity (inconsistent): 3,393 — likely stock adjustments, not cancellations
-- Cancelled + positive quantity (inconsistent): 1 row — isolated case
+**Cancellation invoices vs quantity.** See the table in the Quantity section above. The two agree strongly, with 3,394 exceptions.
 
-**Quantity ≤ 0 vs Price sign** (returns integrity check):
-- Positive price: 19,164 rows — expected (normal returns)
-- Zero price: 3,393 rows — same set as the inconsistent rows above, points to write-offs/adjustments
-- Negative price: 0 rows — no double-counted adjustments found
+**Zero price vs quantity of zero or below.** All 3,393 non-cancelled rows with negative quantity have zero price, which points to write-offs or adjustments, not returns. No negative prices exist.
 
-**Null Customer_ID vs Price sign**: 
-- 5,954 rows with zero price, 229,333 rows with positive price
+**Null Customer_ID vs price sign.** 5,954 zero-price rows and 229,333 positive-price rows. See the Customer_ID section.
 
-**Null Customer_ID clustering by Country/cancellation status**: 
-- heavily concentrated in the UK — 231,706 "Normal" + 614 "Cancelled" null-Customer_ID rows are UK, dwarfing every other country (next highest: EIRE at 1,598). Points to a systematic UK-market cause (e.g. guest checkout) rather than random missingness.
+**StockCode and Description mismatches**
+- StockCodes with more than one Description: 1,190
+- Descriptions with more than one StockCode: about 54 to 57, resolved entirely by the canonical lookup during cleaning
 
-**StockCode / Description mismatches**:
-- StockCodes mapping to multiple Descriptions: 1,190
-- Descriptions mapping to multiple StockCodes: roughly 54 to 57 distinct descriptions affected (exact split unconfirmed; resolved entirely by the canonical lookup during cleaning)
+**Multi-country customers.** 12 customers are linked to two countries. They are resolved with a most-frequent-country lookup before `dim.customer` is built.
 
-**Multi-country Customer_IDs**: 
-- 12 customers linked to more than one Country — resolved via most-frequent-Country lookup before building Dim_Customer.
+**Full-row duplicates**
+- 11,001 distinct duplicate groups (22,813 rows involved). Removing the excess rows leaves one row per group, and 11,812 rows are removed.
+- 4 further duplicates surfaced during cleaning, after the InvoiceDate resolution collapsed two different timestamps into one (see [data_cleaning.md](data_cleaning.md)).
 
-**Full-row duplicates**: 
-- 11,001 distinct duplicate groups (22,813 total rows involved), 11,812 excess rows removed to leave one row per group. 
-Note: an additional 4 duplicate rows surfaced later during cleaning, after the InvoiceDate resolution step collapsed two previously-distinct timestamps into one — see Data Cleaning doc.
+---
 
 ## Key Takeaways
 
-- Build a TransactionType column (Sale / Cancellation / Stock Adjustment) — the 'C' prefix alone misses 3,394 inconsistent rows.
-- Flag null Customer_IDs (22.5%) as Guest/Unregistered — don't drop, revenue is real.
-- Filter non-product StockCodes and junk Descriptions explicitly by name, not just pattern rules.
-- Use StockCode as the canonical product key — Description isn't reliable (1,190 mismatches).
-- Exclude zero-price rows from revenue KPIs.
-- Remove full-row duplicates before anything else — and re-check for duplicates after any step that overwrites a differentiating column (e.g. InvoiceDate resolution).
-- Resolve multi-country customers and multi-date invoices via most-frequent/earliest-value lookups before building dimension tables.
+1. Remove full-row duplicates first, and re-check for duplicates after any step that overwrites a column used to tell rows apart (for example the InvoiceDate resolution).
+2. Build a `TransactionType` column (Sale, Cancellation, Stock Adjustment). The 'C' prefix alone misses 3,394 rows.
+3. Flag null Customer_IDs (22.52%) as Guest/Unregistered. Do not drop them, because the revenue is real.
+4. Filter non-product StockCodes and junk Descriptions explicitly by name, not only by pattern.
+5. Join on StockCode. Description is not reliable as a key, so build one canonical Description per StockCode.
+6. Exclude zero-price rows from revenue KPIs.
+7. Resolve multi-country customers and multi-date invoices with most-frequent and earliest-value lookups before building the dimension tables.
