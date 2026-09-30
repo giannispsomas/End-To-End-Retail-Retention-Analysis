@@ -267,7 +267,7 @@ DIVIDE(
 Used in: Percentage of revenue and customers by segment (clustered bar).
  
 ### AOV by Type
-Revenue divided by distinct invoices in the current context. Placed against customer type, it gives AOV for Wholesale and Retail.
+Revenue divided by distinct invoices in the current context. Placed against `customer_segment`, it gives AOV for Wholesale and Retail.
 ```DAX
 AOV by Type =
 DIVIDE(
@@ -369,5 +369,5 @@ Used in: axis of the Repeat vs One-Time chart, and the `ALL` reference in `% of 
 - **Pareto:** `Cumulative Revenue` and `Product Revenue Rank` use `ALL`, while `Cumulative Revenue %` uses `ALLSELECTED`. `Cumulative Revenue %` computes its own running total and does not call `Cumulative Revenue`.
 - **Duplicate formulas:** `Country Customer Count` matches `Total Customers`, and `AOV by Type` matches `AOV`. They are kept because the visuals already reference them.
 - **Percent measures:** `% of Customers`, `% of Revenue`, `% of Customers by Segment` and `% of Revenue by Segment` are share-of-total measures. Use them with their category field on the axis or legend, or the `ALL` denominator makes the result 100%.
+- **Similar names:** `Customer Type` (calculated column) is Repeat or One-Time. `customer_type` (source column) is Guest or Registered. `customer_segment` is Wholesale or Retail, and `Segment` is the RFM cluster. The `... by Type` measures split by `customer_segment`.
 - **Guest checkouts:** excluded from all customer-level measures through `customer_key <> -1` or `customer_id <> -1`. Revenue measures on the fact table include guest revenue, so `Total Revenue` (£19.64M) is larger than the sum of customer revenue.
- 
