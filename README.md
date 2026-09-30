@@ -4,7 +4,7 @@ An end-to-end analysis of about 1M transactions from a UK online retailer (Decem
  
 **Tools:** SQL Server (T-SQL) · Python (Jupyter) · Power BI (DAX)
  
-![Business Overview](images/1_Business_Overview.png)
+![Business Overview](power_bi/images/1_Business_Overview.png)
  
 ## Key Findings
  
@@ -34,7 +34,7 @@ The Power BI report has six pages: Business Overview, Products, Repeat Customer 
  
 | | |
 |---|---|
-| ![Repeat Customer Behavior](images/page3_repeat_customer_behavior.png) | ![Churn Risk](images/page6_churn_risk.png) |
+| ![Repeat Customer Behavior](power_bi/images/3_Repeat_Customer_Behavior.png) | ![Churn Risk](power_bi/images/6_Churn_Risk.png) |
  
 A page-by-page walkthrough with the measures behind each visual is in [dashboard_guide.md](dashboard_guide.md).
  
@@ -46,7 +46,7 @@ A page-by-page walkthrough with the measures behind each visual is in [dashboard
  
 1. **SQL Server:** profile and clean the raw data, build a star schema, and create reporting views ([sql/](sql/)).
 2. **Python:** RFM segmentation with K-Means clustering, cohort retention, and churn prediction ([python/](python/)).
-3. **Power BI:** a six-page interactive dashboard on top of the SQL views and Python outputs ([powerbi/](powerbi/)).
+3. **Power BI:** a six-page interactive dashboard on top of the SQL views and Python outputs ([power_bi/](power_bi/)).
 ## Repository Structure
  
 ```
@@ -66,8 +66,9 @@ End-To-End-Online-Retail-Analysis/
 │   ├── RFM_K_Means_Clustering_Analysis/
 │   ├── Cohort_Retention_Analysis/
 │   └── Churn_Regression_Analysis/
-├── powerbi/                     Power BI report (.pbix)
-└── images/                      Dashboard screenshots
+└── power_bi/                    Power BI report and dashboard screenshots
+    ├── (report).pbix
+    └── images/                  One screenshot per dashboard page
 ```
  
 ## Documentation
@@ -117,15 +118,9 @@ The full list is in [assumptions_limitations.md](assumptions_limitations.md). Th
    pip install -r requirements.txt
 ```
 4. **Run the notebooks** in [python/](python/): RFM and K-Means clustering, cohort retention, and churn prediction.
-5. **Open the dashboard** in [powerbi/](powerbi/) with Power BI Desktop.
+5. **Open the dashboard** in [power_bi/](power_bi/) with Power BI Desktop.
 ### Connecting Power BI to your own database
  
-1. In Power BI Desktop, go to **Home → Get Data → SQL Server**.
-2. Enter your server (for example `localhost\SQLEXPRESS`) and your database name.
-3. Choose **Import** mode. DirectQuery is unnecessary at this data size.
-4. Choose **Windows authentication**.
-5. Select the reporting views and tables, then click **Load**.
-The report was built with Windows authentication, so it stores no passwords or credentials. If you share your own copy, clear stored credentials first (File → Options and settings → Data source settings).
 1. In Power BI Desktop, go to **Home → Get Data → SQL Server**.
 2. Enter your server (for example `localhost\SQLEXPRESS`) and your database name.
 3. Choose **Import** mode. DirectQuery is unnecessary at this data size.
