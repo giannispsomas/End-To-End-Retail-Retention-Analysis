@@ -26,7 +26,7 @@ Between December 2009 and December 2011 the business generated **£19.64M** from
 - **Reactivate repeat buyers earlier.** Run a follow-up campaign around day 30 after a first order, with a reminder before day 57.
 - **Protect the top accounts.** Assign dedicated account management to the 42 highest-value customers.
 - **Prioritize win-back.** Rank outreach by churn probability and spend: the top 100 churned Core/Average customers first, then the 589 customers who lapsed 91 to 180 days ago.
-These are hypotheses drawn from the data. None has been tested. See [assumptions_limitations.md](assumptions_limitations.md).
+These are hypotheses drawn from the data. None has been tested. See [assumptions_limitations.md](Assumptions_and_Limitations.md).
  
 ## Dashboard
  
