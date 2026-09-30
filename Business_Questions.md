@@ -42,11 +42,12 @@ All queries are in [`sql/05_business_questions.sql`](sql/05_business_questions.s
 - **Dashboard:** Repeat Customer Behavior page, Repeat Rate %, Repeat Revenue Share %, and the customers vs revenue bar.
 ### Q7. What are the AOV and CLV proxy for each customer segment?
 - **Method:** AOV is total revenue divided by total orders. The CLV proxy is total revenue divided by the number of customers.
-- **Finding:** value is concentrated in a small group of wholesale accounts. The 4 Wholesale/B2B accounts average about £420,765 each, and Wholesale CLV is several times higher than Retail.
+- **Finding:** the 294 Wholesale customers are worth far more than the 5,576 Retail customers. On the dashboard chart, Wholesale CLV is about £15.5K against about £2.2K for Retail (roughly seven times), and Wholesale AOV is about £1.4K against about £0.4K. These values are read off the chart, so confirm them against the Q7 output.
+- **Note:** `customer_segment` is the rule-based split from the cleaning step (average quantity per Sale line above the 95th percentile, about 45.3 units, means Wholesale; see [`data_cleaning.md`](data_cleaning.md)). It is a different group from the four Wholesale / B2B Outliers in the RFM clusters below.
 - **Dashboard:** Customer Segmentation page, CLV and AOV of Customer Segment.
 ### Q8. What is gross Sale revenue, net valid revenue, and the value of the non-Sale transaction types?
 - **Method:** three CTEs (gross `Sale` rows from `fact.sales`, net revenue from `vw_valid_sales`, and all non-`Sale` rows), combined with `CROSS JOIN` into one result row.
-- **Purpose:** reconciles the raw sales table to the £19.64M net revenue reported on the dashboard, so the cleaning steps and the exclusion of non-sale rows (returns, adjustments and similar) can be audited.
+- **Purpose:** reconciles `fact.sales` to the £19.64M net revenue on the dashboard. Gross Sale revenue still includes non-product codes such as postage and bank charges, which the net figure excludes, so gross minus net is the value of those codes. The non-Sale figure is the net effect of cancellations and stock adjustments.
 - **Dashboard:** Overview page, Total Revenue.
 ### Q9. How does revenue develop for each acquisition cohort?
 - **Method:** group customers by month of first order and use `DATEDIFF(month, ...)` for the months since that first purchase. Q9 returns revenue by cohort and month. Q9b pivots the same structure to count active customers, months 0-12.
@@ -87,4 +88,3 @@ These questions need statistical or machine-learning methods, so they live in th
 | Churn Risk | Churn rate, revenue at risk, churn probability |
  
 Q8 (revenue reconciliation) supports the Total Revenue figure on the Overview page and has no chart of its own.
- 
