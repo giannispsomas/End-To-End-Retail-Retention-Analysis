@@ -6,7 +6,19 @@
 - **Dataset size:** 43.5 MB
 - **Tool:** SQL Server (T-SQL)
 - **Purpose:** identify data quality issues before cleaning
-- **Raw row count:** 1,044,848
+- **Raw row count (SQL Server):** 1,044,848
+
+## Source File and Load
+
+The source file, `online_retail_II.xlsx`, has two sheets: 'Year 2009-2010' and 'Year 2010-2011'. The second sheet starts in December 2010, the same month the first sheet ends, so **22,523 rows appear on both sheets**. One copy of these rows was removed when the sheets were combined, before the data was loaded into SQL Server.
+
+| Step | Rows |
+|---|---|
+| Rows in the source file (both sheets) | 1,067,371 |
+| Overlapping rows removed before loading | 22,523 |
+| **Rows loaded into SQL Server (raw table)** | **1,044,848** |
+
+This overlap removal happens before profiling and is separate from the full-row duplicate removal in [data_cleaning.md](data_cleaning.md). All counts below are based on the 1,044,848 rows in the raw table.
 
 ## Schema
 
