@@ -1,6 +1,6 @@
 # Assumptions and Limitations
 
-This document lists the definitions the analysis relies on and what it cannot conclude. Read it alongside the findings in [`business_questions.md`](business_questions.md) and the dashboard in [`dashboard_guide.md`](dashboard_guide.md).
+This document lists the definitions the analysis relies on and what it cannot conclude. Read it alongside the findings in [`Business_Questions.md`](Business_Questions.md) and the dashboard in [`Report_Guide.md`](Report_Guide.md).
 
 ## Contents
 
@@ -42,9 +42,9 @@ This document lists the definitions the analysis relies on and what it cannot co
 
 ## 3. Modeling assumptions
 
-1. **Segments come from clustering.** K-Means groups customers by RFM values, and the four segment names (Churned / Lost, Core / Average, Potential Champions, Wholesale / B2B Outliers) were assigned by interpreting each cluster's profile. The number of clusters was chosen with the elbow method and silhouette score (charts in the notebook folder).
+1. **Segments come from clustering.** K-Means groups customers by RFM values, and the four segment names (Churned / Lost, Core / Average, Potential Champions, Wholesale / B2B Outliers) were assigned by interpreting each cluster's profile. The number of clusters was chosen with the elbow method and silhouette score (shown in the RFM notebook, `python/rfmcustseg.ipynb`).
 2. **Churn is a fixed threshold.** 90 days without a purchase counts as churned, regardless of a customer's normal buying rhythm.
-3. **Churn probability is a model output.** It comes from the churn notebook and describes the chance a customer has stopped buying, given their behavior. The confusion matrix and ROC curve are in `python/Churn_Regression_Analysis/`.
+3. **Churn probability is a model output.** It comes from the churn notebook and describes the chance a customer has stopped buying, given their behavior. The confusion matrix and ROC curve are in `python/churn_regr.ipynb`.
 4. **Products are identified by description** in the Pareto analysis and product rankings, not by stock code.
 5. **Median instead of average for time to second order.** The dashboard reports the median because a few very long gaps would inflate the average.
 6. **Country repeat rates** are shown only for countries with 20 or more customers.
