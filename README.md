@@ -56,7 +56,7 @@ End-To-End-Online-Retail-Analysis/
 ├── README.md                        Project overview (this file)
 ├── data_profiling.md                Profiling of the raw data
 ├── data_cleaning.md                 Cleaning steps and row counts
-├── star_schema.md                   Star schema design
+├── star_schema.md                   Star schema design and reporting layer
 ├── star_schema_diagram.png          Entity-relationship diagram
 ├── Business_Questions.md            Business questions, methods and findings
 ├── DAX_Measures.md                  Every DAX measure with formula and purpose
@@ -79,7 +79,7 @@ End-To-End-Online-Retail-Analysis/
 |---|---|
 | [data_profiling.md](data_profiling.md) | Data quality profile of the raw dataset |
 | [data_cleaning.md](data_cleaning.md) | Cleaning and transformation steps, with row counts |
-| [star_schema.md](star_schema.md) | Fact and dimension tables, keys, and the ER diagram |
+| [star_schema.md](star_schema.md) | Fact and dimension tables, keys, the ER diagram, and the `rpt` reporting layer |
 | [Business_Questions.md](Business_Questions.md) | Each business question, its method, and its finding |
 | [DAX_Measures.md](DAX_Measures.md) | Every measure and calculated column, with formulas |
 | [Report_Guide.md](Report_Guide.md) | The six dashboard pages and how to read them |
@@ -114,7 +114,7 @@ The full list is in [Assumptions_and_Limitations.md](Assumptions_and_Limitations
 
 ### Steps
 
-1. **Get the data.** Download `online_retail_II.xlsx`.
+1. **Get the data.** Download `online_retail_II.xlsx` (see [Dataset](#dataset)).
 2. **Run the SQL scripts** in [sql/](sql/) in numbered order, from `01_data_profiling.sql` through `04_rfm_table.sql`. `05_business_questions.sql` holds the analysis queries.
 3. **Set up Python:**
    ```bash
