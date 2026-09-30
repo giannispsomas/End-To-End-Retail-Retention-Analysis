@@ -114,7 +114,7 @@ The full list is in [Assumptions_and_Limitations.md](Assumptions_and_Limitations
 
 ### Steps
 
-1. **Get the data.** Download `online_retail_II.xlsx` (see [Dataset](#dataset)).
+1. **Get the data.** Download `online_retail_II.xlsx`.
 2. **Run the SQL scripts** in [sql/](sql/) in numbered order, from `01_data_profiling.sql` through `04_rfm_table.sql`. `05_business_questions.sql` holds the analysis queries.
 3. **Set up Python:**
    ```bash
