@@ -1,20 +1,20 @@
 # DAX Measures
- 
+
 All measures live in the `_Measures` table, an empty table that holds only measures. Formulas below are exported directly from the model.
- 
+
 **Table names in the model**
- 
+
 | Model name | Source |
 |---|---|
 | `rpt vw_valid_sales` | `rpt.vw_valid_sales` (fact table, one row per valid sales line) |
 | `rpt vw_customer_summary` | `rpt.vw_customer_summary` (one row per customer) |
 | `rpt customer_segments` | `rpt.customer_segments` (RFM segment and churn output from Python, 5,852 rows) |
 | `dim product`, `dim customer`, `dim date` | Star schema dimensions |
- 
+
 **Guest checkouts:** orders without a customer ID use `customer_key = -1`. Customer-level measures exclude them.
- 
+
 ## Contents
- 
+
 1. [Overview page](#1-overview-page)
 2. [Products page](#2-products-page)
 3. [Repeat Customer Behavior page](#3-repeat-customer-behavior-page)
@@ -22,10 +22,11 @@ All measures live in the `_Measures` table, an empty table that holds only measu
 5. [Churn Risk page](#5-churn-risk-page)
 6. [Calculated columns](#6-calculated-columns)
 7. [Notes and overlaps](#7-notes-and-overlaps)
+
 ---
- 
+
 ## 1. Overview page
- 
+
 ### Total Revenue
 Sum of valid sales value in the current filter context.
 ```DAX
@@ -33,7 +34,7 @@ Total Revenue =
 SUM('rpt vw_valid_sales'[sales_amount])
 ```
 Used in: KPI card, monthly revenue line, revenue by country bar, Top 10 products by revenue. Feeds `AOV` and the Pareto measures.
- 
+
 ### Total Orders
 Distinct invoices.
 ```DAX
@@ -41,7 +42,7 @@ Total Orders =
 DISTINCTCOUNT('rpt vw_valid_sales'[invoice])
 ```
 Used in: KPI card. Feeds `AOV`.
- 
+
 ### Total Customers
 Distinct identified customers. Guests (`customer_key = -1`) are excluded.
 ```DAX
@@ -52,7 +53,7 @@ CALCULATE(
 )
 ```
 Used in: KPI card.
- 
+
 ### AOV
 Average order value: revenue divided by orders. `DIVIDE` returns blank instead of an error when there are no orders.
 ```DAX
@@ -60,11 +61,11 @@ AOV =
 DIVIDE([Total Revenue], [Total Orders])
 ```
 Used in: KPI card.
- 
+
 ---
- 
+
 ## 2. Products page
- 
+
 ### Total Quantity
 Units sold.
 ```DAX
@@ -72,7 +73,7 @@ Total Quantity =
 SUM('rpt vw_valid_sales'[quantity])
 ```
 Used in: Top 10 products by quantity bar.
- 
+
 ### Product Revenue Rank
 Ranks every product by revenue, highest first. `ALL` ignores the chart's own filters so the rank is fixed.
 ```DAX
@@ -85,7 +86,7 @@ RANKX(
 )
 ```
 Used in: helper for the Pareto measures.
- 
+
 ### Cumulative Revenue
 Revenue of all products ranked at or above the current product.
 ```DAX
@@ -101,7 +102,7 @@ CALCULATE(
 )
 ```
 Used in: not plotted on any visual. `Cumulative Revenue %` does not reference it (see [Notes](#7-notes-and-overlaps)).
- 
+
 ### Cumulative Revenue %
 Running share of total revenue, products sorted by revenue descending. Drives the line on the Pareto chart. It uses `ALLSELECTED` so the running total stays tied to the products plotted on the chart. With `ALL` the line stayed flat.
 ```DAX
@@ -120,11 +121,11 @@ RETURN
 DIVIDE(RunningTotal, TotalAllProducts)
 ```
 Used in: Pareto chart (line, secondary axis). The column series is `Total Revenue`.
- 
+
 ---
- 
+
 ## 3. Repeat Customer Behavior page
- 
+
 ### Repeat Rate %
 Share of identified customers with more than one order.
 ```DAX
@@ -141,7 +142,7 @@ DIVIDE(
 )
 ```
 Used in: KPI card (72%).
- 
+
 ### Median Days to Second Order
 Median gap between first and second order. Customers with one order have a blank value and are left out, so they do not pull the median toward zero.
 ```DAX
@@ -155,7 +156,7 @@ MEDIANX(
 )
 ```
 Used in: KPI card (57 days).
- 
+
 ### Repeat Revenue Share %
 Share of customer revenue that comes from repeat customers.
 ```DAX
@@ -169,7 +170,7 @@ DIVIDE(
 )
 ```
 Used in: KPI card (97%).
- 
+
 ### Repeat Rate % by Country
 Repeat rate for each country. `CROSSFILTER` makes the filter travel from `dim customer` to the sales table inside this measure only, so the global relationship stays single-direction and other pages are unaffected.
 ```DAX
@@ -190,7 +191,7 @@ RETURN
 DIVIDE(RepeatCustomers, TotalCustomers)
 ```
 Used in: Repeat rate percentage per country bar.
- 
+
 ### Country Customer Count
 Distinct identified customers, used to limit the country chart to countries with 20 or more customers so tiny markets do not distort the ranking.
 ```DAX
@@ -201,7 +202,7 @@ CALCULATE(
 )
 ```
 Used in: visual-level filter on the country bar. The formula is identical to `Total Customers` (see [Notes](#7-notes-and-overlaps)).
- 
+
 ### % of Customers
 Share of identified customers in each Customer Type (Repeat or One-Time). `ALL` on `Customer Type` keeps the denominator at the full customer base, so this only works with `Customer Type` on the axis or legend.
 ```DAX
@@ -219,7 +220,7 @@ DIVIDE(
 )
 ```
 Used in: Repeat vs One-Time clustered bar.
- 
+
 ### % of Revenue
 Share of customer revenue in each Customer Type. Same `ALL` pattern as `% of Customers`.
 ```DAX
@@ -233,11 +234,11 @@ DIVIDE(
 )
 ```
 Used in: Repeat vs One-Time clustered bar.
- 
+
 ---
- 
+
 ## 4. Customer Segmentation page
- 
+
 ### % of Customers by Segment
 Share of customers in each RFM segment. `ALL` on `Segment` keeps the denominator at all 5,852 customers.
 ```DAX
@@ -251,7 +252,7 @@ DIVIDE(
 )
 ```
 Used in: Percentage of revenue and customers by segment (clustered bar).
- 
+
 ### % of Revenue by Segment
 Share of customer revenue (`Monetary`) in each RFM segment.
 ```DAX
@@ -265,7 +266,7 @@ DIVIDE(
 )
 ```
 Used in: Percentage of revenue and customers by segment (clustered bar).
- 
+
 ### AOV by Type
 Revenue divided by distinct invoices in the current context. Placed against `customer_segment`, it gives AOV for Wholesale and Retail.
 ```DAX
@@ -276,7 +277,7 @@ DIVIDE(
 )
 ```
 Used in: CLV and AOV of customer segment (Wholesale vs Retail bar). The formula is equivalent to `AOV`.
- 
+
 ### CLV by Type
 Customer lifetime value proxy: revenue divided by distinct identified customers in the current context.
 ```DAX
@@ -290,11 +291,11 @@ DIVIDE(
 )
 ```
 Used in: CLV and AOV of customer segment (Wholesale vs Retail bar).
- 
+
 ---
- 
+
 ## 5. Churn Risk page
- 
+
 ### Churn Rate %
 Share of customers flagged as churned (`Churned = 1`, no purchase for 90+ days).
 ```DAX
@@ -305,7 +306,7 @@ DIVIDE(
 )
 ```
 Used in: KPI card (50.7%).
- 
+
 ### Revenue at Risk
 Total `Monetary` value of churned customers. It is the customers' historical spend, not weighted by churn probability.
 ```DAX
@@ -316,15 +317,15 @@ CALCULATE(
 )
 ```
 Used in: KPI card (£3.30M).
- 
+
 The average churn probability by segment chart and the top 20 at-risk customers table use the `churn_probability` column directly (average aggregation and data bars), not a measure.
- 
+
 ---
- 
+
 ## 6. Calculated columns
- 
+
 All three are on `rpt vw_customer_summary`.
- 
+
 ### Days to Second Order Bucket
 Groups the days between a customer's first and second order.
 ```DAX
@@ -339,7 +340,7 @@ SWITCH(
 )
 ```
 Used in: Customers' days to second order column chart. "No Second Order" is filtered out of that chart.
- 
+
 ### Days to Second Order Bucket Sort
 Numeric sort key so the buckets display in order (0-30, 31-60, 61-90, 90+) instead of alphabetically. Set as the **Sort by column** of `Days to Second Order Bucket`.
 ```DAX
@@ -353,7 +354,7 @@ SWITCH(
     4
 )
 ```
- 
+
 ### Customer Type
 Labels each customer Repeat or One-Time.
 ```DAX
@@ -361,11 +362,11 @@ Customer Type =
 IF('rpt vw_customer_summary'[is_repeat_customer] = 1, "Repeat", "One-Time")
 ```
 Used in: axis of the Repeat vs One-Time chart, and the `ALL` reference in `% of Customers` and `% of Revenue`.
- 
+
 ---
- 
+
 ## 7. Notes and overlaps
- 
+
 - **Pareto:** `Cumulative Revenue` and `Product Revenue Rank` use `ALL`, while `Cumulative Revenue %` uses `ALLSELECTED`. `Cumulative Revenue %` computes its own running total and does not call `Cumulative Revenue`.
 - **Duplicate formulas:** `Country Customer Count` matches `Total Customers`, and `AOV by Type` matches `AOV`. They are kept because the visuals already reference them.
 - **Percent measures:** `% of Customers`, `% of Revenue`, `% of Customers by Segment` and `% of Revenue by Segment` are share-of-total measures. Use them with their category field on the axis or legend, or the `ALL` denominator makes the result 100%.
