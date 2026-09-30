@@ -1,4 +1,4 @@
-# Dashboard Guide
+# Report Guide
  
 The Power BI report has six pages. Each page answers one business question and opens with a one-line takeaway. The file is [`power_bi/`](power_bi/) in this repo. Measure formulas are in [`dax_measures.md`](dax_measures.md).
  
@@ -32,7 +32,7 @@ The report connects to the `OnlineRetailII` database on SQL Server Express in **
 | From | To | Type |
 |---|---|---|
 | `vw_valid_sales[customer_key]` | `dim customer[customer_surrogate_key]` | Many-to-one, single |
-| `vw_valid_sales[product_key]` | `dim product[product_key]` | Many-to-one, single |
+| `vw_valid_sales[product_key]` | `dim product[product_surrogate_key]` | Many-to-one, single |
 | `vw_valid_sales[full_date]` | `dim date[full_date]` | Many-to-one, single |
 | `vw_customer_summary[customer_key]` | `dim customer[customer_surrogate_key]` | Many-to-one, single |
 | `customer_segments[customer_id]` | `dim customer[customer_id]` | One-to-one, both |
@@ -101,10 +101,10 @@ The guest customer (`customer_key = -1`) has its `customer_id` set to -1 in Powe
 |---|---|---|
 | Table | Average recency, frequency and monetary value per segment, with data bars | Averages of `Recency`, `Frequency`, `Monetary` |
 | Clustered bar | Share of revenue vs share of customers by segment | `% of Revenue by Segment`, `% of Customers by Segment` |
-| Clustered bar | Customer lifetime value and average order value for Wholesale vs Retail | `CLV by Type`, `AOV by Type` |
+| Clustered bar | Customer lifetime value and average order value for Wholesale vs Retail (the rule-based `customer_segment`) | `CLV by Type`, `AOV by Type` |
 | Year slicer | Filters the year | n/a |
  
-**Segments** (from K-Means clustering on RFM values): Churned / Lost Customers, Core / Average Customers, Potential Champions, Wholesale / B2B Outliers. See [`business_questions.md`](business_questions.md) for the sizes.
+**Segments** (from K-Means clustering on RFM values): Churned / Lost Customers, Core / Average Customers, Potential Champions, Wholesale / B2B Outliers. See [`business_questions.md`](business_questions.md) for the sizes. The Wholesale vs Retail chart uses a different, rule-based split (`customer_segment`, based on average quantity per line), so its 294 Wholesale customers are not the same group as the 4 Wholesale / B2B Outliers.
  
 ---
  
