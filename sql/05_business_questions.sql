@@ -49,7 +49,7 @@ group by
 		'Slow'
 	end;
 
--- Q5 How much total revenue comes from repeat customers vs one-time customers, and what % of the grand total does each represent?
+-- Q6 How much total revenue comes from repeat customers vs one-time customers, and what % of the grand total does each represent?
 select 
 	case when cus.is_repeat_customer = 1 then 'Repeat Customer' else 'One-Time Customer' end [Customer Categorization], 
 	sum(cus.total_revenue) [Total Revenue per Customer Category],
@@ -58,7 +58,7 @@ from rpt.vw_customer_summary cus
 where (cus.customer_key <> -1)
 group by case when cus.is_repeat_customer = 1 then 'Repeat Customer' else 'One-Time Customer' end;
 
--- Q6 What is the AOV (total revenue / total orders) and the CLV proxy (total revenue / number of customers) for each customer_segment?
+-- Q7 What is the AOV (total revenue / total orders) and the CLV proxy (total revenue / number of customers) for each customer_segment?
 select 
 	cus.customer_segment,
 	(sum(cus.total_revenue) / sum(cus.order_count)) [Average Order Value / AOV], 
@@ -67,7 +67,7 @@ from rpt.vw_customer_summary cus
 where (cus.customer_key <> -1)
 group by cus.customer_segment;
 
--- Q7 In one result row, show gross Sale revenue, net valid revenue (from the view), and the value of every non-Sale transaction type
+-- Q8 In one result row, show gross Sale revenue, net valid revenue (from the view), and the value of every non-Sale transaction type
 with cte_gross_rev as (
 	select sum(fs.sales_amount) [Gross Sale Revenue]
 	from fact.sales fs
@@ -88,9 +88,9 @@ select
 	c3.[Non-Sale Revenue]
 from cte_gross_rev c1
 cross join cte_net_rev c2
-cross join cte_nonsale_inv_value c3
+cross join cte_nonsale_inv_value c3;
 
--- Q8 Cohort Analysis
+-- Q9 Cohort analysis: revenue by cohort month and months since first purchase
 select 
 	format(cus.first_order_date, 'yyyy-MM') [Cohort Month],
 	datediff(month, cus.first_order_date, sales.full_date) [Months since first purchase],
@@ -106,7 +106,7 @@ order by
 	[Cohort Month], 
 	[Months since first purchase];
 
--- Using pivot
+-- Q9b Cohort analysis (pivot): active customers by cohort month and months since first purchase
 with cohort as (
 	select 
 		format(cus.first_order_date, 'yyyy-MM') [Cohort Month],
