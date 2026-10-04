@@ -1,5 +1,5 @@
 -- ============================================================
--- End-to-End Retail Retention Analysis: Star Schema Build
+-- End-To-End Retail Retention Analysis: Star Schema Build
 -- ============================================================
 
 -- ============================================================
