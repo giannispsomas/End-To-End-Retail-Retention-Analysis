@@ -149,7 +149,7 @@ The report was built with Windows authentication, so it stores no passwords or c
 
 ## About the author
 
-Built by **Giannis Psomas** as an end-to-end data analyst portfolio project. Questions or feedback are welcome.
+Built by **Giannis Psomas**, using SQL Server, Python and Power BI to turn raw transaction data into retention insights and recommendations. Questions or feedback are welcome.
 
 - LinkedIn: [giannis-psomas](https://www.linkedin.com/in/giannis-psomas/)
 - GitHub: [giannispsomas](https://github.com/giannispsomas)
