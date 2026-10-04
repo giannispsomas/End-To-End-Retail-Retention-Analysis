@@ -64,7 +64,7 @@ A page-by-page walkthrough with the measures behind each visual is in [Report_Gu
 ## Repository Structure
 
 ```
-End-to-End-Retail-Retention-Analysis/
+End-To-End-Retail-Retention-Analysis/
 ├── README.md                        Project overview (this file)
 ├── Project Brief.pdf                One-page brief for business stakeholders
 ├── data_profiling.md                Profiling of the raw data
