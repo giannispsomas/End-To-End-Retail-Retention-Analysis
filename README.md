@@ -45,6 +45,8 @@ The Power BI report has six pages: Business Overview, Products, Repeat Customer 
 |---|---|
 | ![Repeat Customer Behavior](power_bi/images/3_Repeat_Customer_Behavior.png) | ![Churn Risk](power_bi/images/6_Churn_Risk.png) |
 
+**Can't open Power BI?** The full six-page report is available as a PDF: [power_bi/OnlineRetailII.pdf](power_bi/OnlineRetailII.pdf).
+
 A page-by-page walkthrough with the measures behind each visual is in [Report_Guide.md](Report_Guide.md).
 
 ## Project Overview
@@ -71,6 +73,7 @@ End-To-End-Online-Retail-Analysis/
 ├── Report_Guide.md                  Page-by-page dashboard walkthrough
 ├── Assumptions_and_Limitations.md   Definitions, assumptions and limits
 ├── requirements.txt                 Python dependencies
+├── LICENSE                          MIT license
 ├── sql/                             T-SQL scripts (profiling, cleaning, star schema, RFM, business questions)
 ├── python/                          Jupyter notebooks
 │   ├── rfmcustseg.ipynb             RFM segmentation and K-Means clustering
@@ -78,6 +81,7 @@ End-To-End-Online-Retail-Analysis/
 │   └── churn_regr.ipynb             Churn prediction
 └── power_bi/                        Power BI report and dashboard screenshots
     ├── OnlineRetailII.pbix          Power BI report
+    ├── OnlineRetailII.pdf           The same report exported as a PDF
     └── images/                      One screenshot per dashboard page
 ```
 
@@ -145,4 +149,11 @@ The report was built with Windows authentication, so it stores no passwords or c
 
 ## About the author
 
-Built by **Giannis Psomas** as an end-to-end data analyst portfolio project. Questions or feedback are welcome through [GitHub](https://github.com/giannispsomas).
+Built by **Giannis Psomas** as an end-to-end data analyst portfolio project. Questions or feedback are welcome.
+
+- LinkedIn: [giannis-psomas](https://www.linkedin.com/in/giannis-psomas/)
+- GitHub: [giannispsomas](https://github.com/giannispsomas)
+
+## License
+
+The code in this repository is released under the [MIT License](LICENSE). The dataset is not included; it is licensed separately under CC BY 4.0 by its authors (see [Dataset](#dataset)).
