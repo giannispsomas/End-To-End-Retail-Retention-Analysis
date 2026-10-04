@@ -1,4 +1,4 @@
-# End-To-End Online Retail Analysis
+# End-to-End Retail Retention Analysis
 
 An end-to-end analysis of about 1M transactions from a UK online retailer (December 2009 to December 2011). The project takes raw sales data through SQL Server, Python and Power BI to answer one question: **where does revenue come from, and how much of it is at risk?**
 
@@ -64,7 +64,7 @@ A page-by-page walkthrough with the measures behind each visual is in [Report_Gu
 ## Repository Structure
 
 ```
-End-To-End-Online-Retail-Analysis/
+End-to-End-Retail-Retention-Analysis/
 ├── README.md                        Project overview (this file)
 ├── Project Brief.pdf                One-page brief for business stakeholders
 ├── data_profiling.md                Profiling of the raw data
