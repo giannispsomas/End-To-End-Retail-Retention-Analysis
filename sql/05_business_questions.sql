@@ -1,6 +1,6 @@
 /*
 ================================================================================
-ONLINE RETAIL II - BUSINESS QUESTIONS
+END-TO-END RETAIL RETENTION ANALYSIS - BUSINESS QUESTIONS
 ================================================================================
 */
 

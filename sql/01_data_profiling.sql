@@ -1,6 +1,6 @@
 /*
 ================================================================================
-ONLINE RETAIL II - DATA PROFILING
+END-TO-END RETAIL RETENTION ANALYSIS - DATA PROFILING
 ================================================================================
 Purpose: Systematic column-by-column and cross-column profiling of the
          online_retail_II dataset prior to data cleaning.

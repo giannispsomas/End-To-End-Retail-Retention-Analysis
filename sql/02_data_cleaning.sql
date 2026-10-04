@@ -1,6 +1,6 @@
 /*
 ================================================================================
-ONLINE RETAIL II - DATA CLEANING
+END-TO-END RETAIL RETENTION ANALYSIS - DATA CLEANING
 ================================================================================
 Purpose   : Turn the raw table dbo.online_retail_II into an analysis-ready
             dataset. The raw table is never modified: all work happens on a copy.
