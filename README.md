@@ -4,6 +4,8 @@ An end-to-end analysis of about 1M transactions from a UK online retailer (Decem
 
 **Tools:** SQL Server (T-SQL) · Python (Jupyter) · Power BI (DAX)
 
+**Start here:** [One-page project brief (PDF)](Project%20Brief.pdf) · [Dashboard report (PDF)](power_bi/OnlineRetailII.pdf)
+
 ### At a glance
 
 - **72% of customers are repeat buyers, and they generate 97% of revenue.** The median time to a second order is 57 days, so a follow-up around day 30 is the clearest lever.
@@ -64,6 +66,7 @@ A page-by-page walkthrough with the measures behind each visual is in [Report_Gu
 ```
 End-To-End-Online-Retail-Analysis/
 ├── README.md                        Project overview (this file)
+├── Project Brief.pdf                One-page brief for business stakeholders
 ├── data_profiling.md                Profiling of the raw data
 ├── data_cleaning.md                 Cleaning steps and row counts
 ├── star_schema.md                   Star schema design and reporting layer
@@ -89,6 +92,7 @@ End-To-End-Online-Retail-Analysis/
 
 | Document | What it covers |
 |---|---|
+| [Project Brief.pdf](Project%20Brief.pdf) | One-page brief for stakeholders: bottom line, ranked actions, findings, and limits |
 | [data_profiling.md](data_profiling.md) | Data quality profile of the raw dataset |
 | [data_cleaning.md](data_cleaning.md) | Cleaning and transformation steps, with row counts |
 | [star_schema.md](star_schema.md) | Fact and dimension tables, keys, the ER diagram, and the `rpt` reporting layer |
