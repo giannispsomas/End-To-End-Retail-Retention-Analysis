@@ -4,7 +4,7 @@ An end-to-end analysis of about 1M transactions from a UK online retailer (Decem
 
 **Tools:** SQL Server (T-SQL) · Python (Jupyter) · Power BI (DAX)
 
-**Start here:** [One-page project brief (PDF)](Project%20Brief.pdf) · [Dashboard report (PDF)](power_bi/OnlineRetailII.pdf)
+**Start here:** [Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [One-page project brief (PDF)](Project%20Brief.pdf) · [Dashboard report (PDF)](power_bi/OnlineRetailII.pdf)
 
 ### At a glance
 
