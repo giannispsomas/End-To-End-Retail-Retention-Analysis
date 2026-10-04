@@ -4,7 +4,7 @@ An end-to-end analysis of about 1M transactions from a UK online retailer (Decem
 
 **Tools:** SQL Server (T-SQL) · Python (Jupyter) · Power BI (DAX)
 
-**Start here:** [Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [One-page project brief (PDF)](Project%20Brief.pdf) · [Dashboard report (PDF)](power_bi/OnlineRetailII.pdf)
+**Start here:** [Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [One-page project brief (PDF)](Project%20Brief.pdf) · [Dashboard report (PDF)](power_bi/Retention_Analysis.pdf)
 
 ### At a glance
 
@@ -47,7 +47,7 @@ The Power BI report has six pages: Business Overview, Products, Repeat Customer 
 |---|---|
 | ![Repeat Customer Behavior](power_bi/images/3_Repeat_Customer_Behavior.png) | ![Churn Risk](power_bi/images/6_Churn_Risk.png) |
 
-**Can't open Power BI?** The full six-page report is available as a PDF: [power_bi/OnlineRetailII.pdf](power_bi/OnlineRetailII.pdf).
+**Can't open Power BI?** The full six-page report is available as a PDF: [power_bi/Retention_Analysis.pdf](power_bi/Retention_Analysis.pdf).
 
 A page-by-page walkthrough with the measures behind each visual is in [Report_Guide.md](Report_Guide.md).
 
@@ -83,8 +83,8 @@ End-to-End-Retail-Retention-Analysis/
 │   ├── coh_ret_analysis.ipynb       Cohort retention
 │   └── churn_regr.ipynb             Churn prediction
 └── power_bi/                        Power BI report and dashboard screenshots
-    ├── OnlineRetailII.pbix          Power BI report
-    ├── OnlineRetailII.pdf           The same report exported as a PDF
+    ├── Retention_Analysis.pbix      Power BI report
+    ├── Retention_Analysis.pdf       The same report exported as a PDF
     └── images/                      One screenshot per dashboard page
 ```
 
