@@ -4,6 +4,14 @@ An end-to-end analysis of about 1M transactions from a UK online retailer (Decem
 
 **Tools:** SQL Server (T-SQL) · Python (Jupyter) · Power BI (DAX)
 
+### At a glance
+
+- **72% of customers are repeat buyers, and they generate 97% of revenue.** The median time to a second order is 57 days, so a follow-up around day 30 is the clearest lever.
+- **51% of identified customers have gone quiet for 90+ days, holding £3.30M (17%) of historical revenue.** The 589 who lapsed 91 to 180 days ago are the most recoverable.
+- **Revenue is concentrated:** the UK is 85.5% of sales and September to November is 29% of the year.
+
+**Skills shown:** data profiling and cleaning in T-SQL · star-schema modelling and reporting views · RFM segmentation with K-Means · cohort retention analysis · logistic-regression churn scoring · DAX measures and a six-page Power BI dashboard · documenting assumptions and limits honestly.
+
 ![Business Overview](power_bi/images/1_Business_Overview.png)
 
 ## Key Findings
@@ -134,3 +142,7 @@ The full list is in [Assumptions_and_Limitations.md](Assumptions_and_Limitations
 5. Select the reporting views and tables, then click **Load**.
 
 The report was built with Windows authentication, so it stores no passwords or credentials. If you share your own copy, clear stored credentials first (File → Options and settings → Data source settings).
+
+## About the author
+
+Built by **Giannis Psomas** as an end-to-end data analyst portfolio project. Questions or feedback are welcome through [GitHub](https://github.com/giannispsomas).
