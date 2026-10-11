@@ -131,15 +131,16 @@ The full list is in [Assumptions_and_Limitations.md](Assumptions_and_Limitations
 ### Steps
 
 1. **Get the data.** Download `online_retail_II.xlsx` (see [Dataset](#dataset)).
-2. **Run the SQL scripts** in [sql/](sql/) in numbered order, from `01_data_profiling.sql` through `04_rfm_table.sql`. `05_business_questions.sql` holds the analysis queries.
-3. **Set up Python:**
+2. **Load the data into SQL Server.** The data was imported manually with the **Import Flat File** wizard in SQL Server Management Studio; there is no import script. Create the raw table this way before running the SQL scripts.
+3. **Run the SQL scripts** in [sql/](sql/) in numbered order, from `01_data_profiling.sql` through `04_rfm_table.sql`. `05_business_questions.sql` holds the analysis queries.
+4. **Set up Python:**
    ```bash
    python3 -m venv venv
    source venv/bin/activate       # Windows: venv\Scripts\Activate.ps1
    pip install -r requirements.txt
    ```
-4. **Run the notebooks** in [python/](python/): RFM and K-Means clustering, cohort retention, and churn prediction.
-5. **Open the dashboard** in [power_bi/](power_bi/) with Power BI Desktop.
+5. **Run the notebooks** in [python/](python/): RFM and K-Means clustering, cohort retention, and churn prediction.
+6. **Open the dashboard** in [power_bi/](power_bi/) with Power BI Desktop.
 
 ### Connecting Power BI to your own database
 
