@@ -125,7 +125,7 @@ The full list is in [Assumptions_and_Limitations.md](Assumptions_and_Limitations
 ### Environment
 - SQL Server 2025 Express
 - SQL Server Management Studio 22.9.5
-- Python 3 with the packages in `requirements.txt`
+- Python 3.14 (developed on 3.14.6) with the packages in `requirements.txt`
 - Power BI Desktop 2.156.951.0 64-bit (July 2026) or later
 
 ### Steps
