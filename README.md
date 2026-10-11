@@ -22,7 +22,7 @@ Between December 2009 and December 2011 the business generated **£19.64M** from
 
 | Area | Finding |
 |---|---|
-| **Revenue concentration** | The UK generates 85.5% of revenue (£16.80M). September to November delivers 29% of January to November revenue in both 2010 and 2011, and year-on-year growth is flat (+3.0%). |
+| **Revenue concentration** | The UK generates 85.5% of revenue (£16.80M). September to November delivers 29% of January to November revenue in both 2010 and 2011, and year-on-year growth is modest (+3.0%). |
 | **Product catalog** | 22% of products (1,028 of 4,688) generate 80% of revenue. There is no single-product dependency: the top 10 products make up 8.0% of revenue. |
 | **Repeat customers** | 72% of customers are repeat buyers, and they generate 97% of revenue. A repeat customer is worth about £3,900 in lifetime revenue against £344 for a one-time buyer. The median time to a second order is 57 days. |
 | **Customer segments** | 42 customers (38 Potential Champions and 4 Wholesale/B2B accounts) hold 27% of identified revenue. The Lost segment is 34% of customers and 8.4% of revenue. |
