@@ -16,28 +16,11 @@ An end-to-end analysis of about 1M transactions from a UK online retailer (Decem
 
 ![Business Overview](power_bi/images/1_Business_Overview.png)
 
-## Key Findings
+## Key Findings and Recommendations
 
 Between December 2009 and December 2011 the business generated **£19.64M** from **39,516 orders** and **5,852 identified customers** (average order value £497.09; the last month is partial).
 
-| Area | Finding |
-|---|---|
-| **Revenue concentration** | The UK generates 85.5% of revenue (£16.80M). September to November delivers 29% of January to November revenue in both 2010 and 2011, and year-on-year growth is modest (+3.0%). |
-| **Product catalog** | 22% of products (1,028 of 4,688) generate 80% of revenue. There is no single-product dependency: the top 10 products make up 8.0% of revenue. |
-| **Repeat customers** | 72% of customers are repeat buyers, and they generate 97% of revenue. A repeat customer is worth about £3,900 in lifetime revenue against £344 for a one-time buyer. The median time to a second order is 57 days. |
-| **Customer segments** | 42 customers (38 Potential Champions and 4 Wholesale/B2B accounts) hold 27% of identified revenue. The Lost segment is 34% of customers and 8.4% of revenue. |
-| **Retention** | Retention peaks at about 22% in month 2, then erodes to about 18% by month 6. |
-| **Churn** | 51% of customers (2,967) have not bought for 90+ days, holding £3.30M (17% of total revenue) in historical spend. |
-
-### Recommendations
-
-- **Diversify the market.** Expand Germany and France, assign account management to the Netherlands and EIRE, and use promotions to lift January to August sales.
-- **Trim the long tail.** Audit the bottom 2,344 products (4.6% of revenue) to discontinue or bundle them.
-- **Reactivate repeat buyers earlier.** Run a follow-up campaign around day 30 after a first order, with a reminder before day 57.
-- **Protect the top accounts.** Assign dedicated account management to the 42 highest-value customers.
-- **Prioritize win-back.** Rank outreach by churn probability and spend: the top 100 churned Core/Average customers first, then the 589 customers who lapsed 91 to 180 days ago.
-
-These are hypotheses drawn from the data. None has been tested. See [Assumptions_and_Limitations.md](Assumptions_and_Limitations.md).
+The full findings, the six ranked recommendations and the limits of the analysis are in the **[case study](Case_Study.md)**. The recommendations are hypotheses drawn from the data and none has been tested. See [Assumptions_and_Limitations.md](docs/Assumptions_and_Limitations.md).
 
 ## Dashboard
 
@@ -49,7 +32,7 @@ The Power BI report has six pages: Business Overview, Products, Repeat Customer 
 
 **Can't open Power BI?** The full six-page report is available as a PDF: [power_bi/Retention_Analysis.pdf](power_bi/Retention_Analysis.pdf).
 
-A page-by-page walkthrough with the measures behind each visual is in [Report_Guide.md](Report_Guide.md).
+A page-by-page walkthrough with the measures behind each visual is in [Report_Guide.md](docs/Report_Guide.md).
 
 ## Project Overview
 
@@ -68,16 +51,17 @@ End-To-End-Retail-Retention-Analysis/
 ├── README.md                        Project overview (this file)
 ├── Case_Study.md                    The project as a story: question, findings, actions, limits
 ├── Executive_Summary.pdf            One-page summary for business stakeholders (print-friendly)
-├── data_profiling.md                Profiling of the raw data
-├── data_cleaning.md                 Cleaning steps and row counts
-├── star_schema.md                   Star schema design and reporting layer
-├── star_schema_diagram.png          Entity-relationship diagram
-├── Business_Questions.md            Business questions, methods and findings
-├── DAX_Measures.md                  Every DAX measure with formula and purpose
-├── Report_Guide.md                  Page-by-page dashboard walkthrough
-├── Assumptions_and_Limitations.md   Definitions, assumptions and limits
 ├── requirements.txt                 Python dependencies
 ├── LICENSE                          MIT license
+├── docs/                            Supporting documentation
+│   ├── data_profiling.md            Profiling of the raw data
+│   ├── data_cleaning.md             Cleaning steps and row counts
+│   ├── star_schema.md               Star schema design and reporting layer
+│   ├── star_schema_diagram.png      Entity-relationship diagram
+│   ├── Business_Questions.md        Business questions, methods and findings
+│   ├── DAX_Measures.md              Every DAX measure with formula and purpose
+│   ├── Report_Guide.md              Page-by-page dashboard walkthrough
+│   └── Assumptions_and_Limitations.md   Definitions, assumptions and limits
 ├── sql/                             T-SQL scripts (profiling, cleaning, star schema, RFM, business questions)
 ├── python/                          Jupyter notebooks
 │   ├── rfmcustseg.ipynb             RFM segmentation and K-Means clustering
@@ -95,13 +79,13 @@ End-To-End-Retail-Retention-Analysis/
 |---|---|
 | [Case_Study.md](Case_Study.md) | The project as a story: question, data fixes, findings, ranked actions, and how far to trust the churn score |
 | [Executive_Summary.pdf](Executive_Summary.pdf) | One-page summary for stakeholders: bottom line, ranked actions, findings, and limits |
-| [data_profiling.md](data_profiling.md) | Data quality profile of the raw dataset |
-| [data_cleaning.md](data_cleaning.md) | Cleaning and transformation steps, with row counts |
-| [star_schema.md](star_schema.md) | Fact and dimension tables, keys, the ER diagram, and the `rpt` reporting layer |
-| [Business_Questions.md](Business_Questions.md) | Each business question, its method, and its finding |
-| [DAX_Measures.md](DAX_Measures.md) | Every measure and calculated column, with formulas |
-| [Report_Guide.md](Report_Guide.md) | The six dashboard pages and how to read them |
-| [Assumptions_and_Limitations.md](Assumptions_and_Limitations.md) | Definitions, assumptions, and what the analysis cannot conclude |
+| [data_profiling.md](docs/data_profiling.md) | Data quality profile of the raw dataset |
+| [data_cleaning.md](docs/data_cleaning.md) | Cleaning and transformation steps, with row counts |
+| [star_schema.md](docs/star_schema.md) | Fact and dimension tables, keys, the ER diagram, and the `rpt` reporting layer |
+| [Business_Questions.md](docs/Business_Questions.md) | Each business question, its method, and its finding |
+| [DAX_Measures.md](docs/DAX_Measures.md) | Every measure and calculated column, with formulas |
+| [Report_Guide.md](docs/Report_Guide.md) | The six dashboard pages and how to read them |
+| [Assumptions_and_Limitations.md](docs/Assumptions_and_Limitations.md) | Definitions, assumptions, and what the analysis cannot conclude |
 
 ## Dataset
 
@@ -114,7 +98,7 @@ End-To-End-Retail-Retention-Analysis/
 
 ## Definitions and Assumptions
 
-The full list is in [Assumptions_and_Limitations.md](Assumptions_and_Limitations.md). The key ones:
+The full list is in [Assumptions_and_Limitations.md](docs/Assumptions_and_Limitations.md). The key ones:
 
 - Invoices starting with "C" are cancellations or returns and are excluded from revenue and repeat-purchase calculations.
 - Guest checkouts (no Customer ID, 13.1% of revenue) are excluded from customer-level metrics.
