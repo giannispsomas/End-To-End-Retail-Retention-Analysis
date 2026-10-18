@@ -1,6 +1,6 @@
 # Business Questions
 
-This project answers two sets of questions. The first set (Q1-Q9) is answered in SQL Server. The second set is answered in Python and Power BI. Every finding here matches the project brief and the dashboard.
+This project answers two sets of questions. The first set (Q1-Q9) is answered in SQL Server. The second set is answered in Python and Power BI. Every finding here matches the case study, the executive summary and the dashboard.
 
 **Currency:** the dataset is in GBP (£).
 **Guest checkouts:** orders with no customer ID (13.1% of revenue, £2.58M) are excluded from customer-level metrics.
