@@ -15,7 +15,7 @@ This project answers two sets of questions. The first set (Q1-Q9) is answered in
 
 ## 1. SQL questions (Q1-Q9)
 
-All queries are in [`sql/05_business_questions.sql`](sql/05_business_questions.sql). They run against two reporting views built in the star schema step: `rpt.vw_valid_sales` (valid sales lines) and `rpt.vw_customer_summary` (one row per customer).
+All queries are in [`sql/05_business_questions.sql`](../sql/05_business_questions.sql). They run against two reporting views built in the star schema step: `rpt.vw_valid_sales` (valid sales lines) and `rpt.vw_customer_summary` (one row per customer).
 
 ### Q1. What are the top 10 products by total revenue?
 - **Method:** `TOP 10` with `SUM(sales_amount)` grouped by product description.
@@ -78,15 +78,15 @@ These questions need statistical or machine-learning methods, so they live in th
 - **Finding:** 284 of 4,688 products (6%) generate 50% of revenue, and 1,028 (22%) generate 80%. The bottom 2,344 products generate 4.6% (£0.91M).
 
 ### Which customer groups matter most?
-- **Method:** RFM scoring (recency, frequency, monetary) and K-Means clustering. Notebook: [`python/rfmcustseg.ipynb`](python/rfmcustseg.ipynb). The RFM table is built in [`sql/04_rfm_table.sql`](sql/04_rfm_table.sql).
+- **Method:** RFM scoring (recency, frequency, monetary) and K-Means clustering. Notebook: [`python/rfmcustseg.ipynb`](../python/rfmcustseg.ipynb). The RFM table is built in [`sql/04_rfm_table.sql`](../sql/04_rfm_table.sql).
 - **Finding:** four segments emerge. 42 customers hold 27% of identified revenue (£4.61M): 38 Potential Champions (£2.92M) and 4 Wholesale/B2B accounts (£1.68M). Core/Average is 3,830 customers and 65% of revenue, and the top 10% of customers generate 63.9%. The Lost segment is 1,980 customers (34%) and 8.4% of revenue, averaging 461 days since their last order, and 368 of them spent over £1,000 each (£0.86M).
 
 ### How do customers retain over time?
-- **Method:** cohort retention analysis. Notebook: [`python/coh_ret_analysis.ipynb`](python/coh_ret_analysis.ipynb). SQL equivalent: Q9 and Q9b above.
+- **Method:** cohort retention analysis. Notebook: [`python/coh_ret_analysis.ipynb`](../python/coh_ret_analysis.ipynb). SQL equivalent: Q9 and Q9b above.
 - **Finding:** see Q9. Retention peaks near 22% in month 2, then erodes steadily, which points to weak habit formation after the first repeat purchase.
 
 ### Which customers have churned or are likely to?
-- **Method:** a customer is churned if they have not purchased for 90+ days. A logistic regression estimates each customer's churn probability. Notebook: [`python/churn_regr.ipynb`](python/churn_regr.ipynb).
+- **Method:** a customer is churned if they have not purchased for 90+ days. A logistic regression estimates each customer's churn probability. Notebook: [`python/churn_regr.ipynb`](../python/churn_regr.ipynb).
 - **Finding:** 2,967 customers (51%) are churned, holding £3.30M (17% of total revenue): Core/Average £1.76M (53%) and Lost £1.44M (43%). 589 customers who lapsed 91-180 days ago (£1.01M) are the most recoverable, and 1,304 still-active customers already score a 50%+ churn probability (£1.06M).
 
 ---
