@@ -4,7 +4,7 @@ An end-to-end analysis of about 1M transactions from a UK online retailer (Decem
 
 **Tools:** SQL Server (T-SQL) · Python (Jupyter) · Power BI (DAX)
 
-**Start here:** [Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [One-page project brief (PDF)](Project%20Brief.pdf) · [Dashboard report (PDF)](power_bi/Retention_Analysis.pdf)
+**Start here:** [Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [Case study](Case_Study.md) · [Dashboard report (PDF)](power_bi/Retention_Analysis.pdf)
 
 ### At a glance
 
@@ -66,6 +66,7 @@ A page-by-page walkthrough with the measures behind each visual is in [Report_Gu
 ```
 End-To-End-Retail-Retention-Analysis/
 ├── README.md                        Project overview (this file)
+├── Case_Study.md                    The project as a story: question, findings, actions, limits
 ├── Project Brief.pdf                One-page brief for business stakeholders
 ├── data_profiling.md                Profiling of the raw data
 ├── data_cleaning.md                 Cleaning steps and row counts
@@ -92,6 +93,7 @@ End-To-End-Retail-Retention-Analysis/
 
 | Document | What it covers |
 |---|---|
+| [Case_Study.md](Case_Study.md) | The project as a story: question, data fixes, findings, ranked actions, and how far to trust the churn score |
 | [Project Brief.pdf](Project%20Brief.pdf) | One-page brief for stakeholders: bottom line, ranked actions, findings, and limits |
 | [data_profiling.md](data_profiling.md) | Data quality profile of the raw dataset |
 | [data_cleaning.md](data_cleaning.md) | Cleaning and transformation steps, with row counts |
