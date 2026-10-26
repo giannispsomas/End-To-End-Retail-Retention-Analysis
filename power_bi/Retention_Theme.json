@@ -1,0 +1,92 @@
+{
+  "name": "Retail Retention",
+  "dataColors": [
+    "#1F3864",
+    "#C55A11",
+    "#548235",
+    "#7F7F7F",
+    "#2E75B6",
+    "#BF9000",
+    "#7030A0",
+    "#00B0F0"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#262626",
+  "tableAccent": "#1F3864",
+  "textClasses": {
+    "title": {
+      "fontSize": 13,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F3864"
+    },
+    "label": {
+      "fontSize": 11,
+      "fontFace": "Segoe UI",
+      "color": "#404040"
+    },
+    "callout": {
+      "fontSize": 26,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F3864"
+    },
+    "header": {
+      "fontSize": 12,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F3864"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#D9D9D9"
+              }
+            },
+            "radius": 8
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontColor": {
+              "solid": {
+                "color": "#1F3864"
+              }
+            },
+            "fontSize": 12,
+            "bold": true
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F2F4F8"
+              }
+            },
+            "transparency": 0
+          }
+        ]
+      }
+    }
+  }
+}
