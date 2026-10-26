@@ -5,7 +5,7 @@ SQL Server · Python · Power BI
 
 > **The short version:** 72% of customers reorder and generate 97% of revenue, but half of all identified customers (51%) have gone quiet for 90+ days, holding £3.30M of past spend. The cheapest place to act is the gap between a customer's first and second order: the median is 57 days, and only 31% of repeat customers come back within 30.
 
-[Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [Dashboard report (PDF)](power_bi/Retention_Analysis.pdf) · [Print-friendly one-page version (PDF)](Executive_Summary.pdf) · [Code and documentation](README.md)
+[Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [Dashboard report (PDF)](power_bi/Retention_Analysis.pdf) · [Print-friendly one-page version (PDF)](Executive_Summary.pdf) · [Slides (PPTX)](Executive_Summary_Slides.pptx) · [Code and documentation](README.md)
 
 ---
 

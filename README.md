@@ -4,7 +4,7 @@ An end-to-end analysis of about 1M transactions from a UK online retailer (Decem
 
 **Tools:** SQL Server (T-SQL) · Python (Jupyter) · Power BI (DAX)
 
-**Start here:** [Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [Case study](Case_Study.md) · [Dashboard report (PDF)](power_bi/Retention_Analysis.pdf)
+**Start here:** [Video walkthrough (3 min)](https://youtu.be/I_UvFsbfLRI) · [Case study](Case_Study.md) · [Dashboard report (PDF)](power_bi/Retention_Analysis.pdf) · [Executive summary (PDF)](Executive_Summary.pdf) · [Slides (PPTX)](Executive_Summary_Slides.pptx)
 
 ### At a glance
 
