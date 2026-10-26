@@ -51,6 +51,7 @@ End-To-End-Retail-Retention-Analysis/
 ├── README.md                        Project overview (this file)
 ├── Case_Study.md                    The project as a story: question, findings, actions, limits
 ├── Executive_Summary.pdf            One-page summary for business stakeholders (print-friendly)
+├── Executive_Summary_Slides.pptx    The same story as 7 slides
 ├── requirements.txt                 Python dependencies
 ├── LICENSE                          MIT license
 ├── docs/                            Supporting documentation
@@ -79,6 +80,7 @@ End-To-End-Retail-Retention-Analysis/
 |---|---|
 | [Case_Study.md](Case_Study.md) | The project as a story: question, data fixes, findings, ranked actions, and how far to trust the churn score |
 | [Executive_Summary.pdf](Executive_Summary.pdf) | One-page summary for stakeholders: bottom line, ranked actions, findings, and limits |
+| [Executive_Summary_Slides.pptx](Executive_Summary_Slides.pptx) | A 7-slide presentation of the question, findings, ranked actions and limits |
 | [data_profiling.md](docs/data_profiling.md) | Data quality profile of the raw dataset |
 | [data_cleaning.md](docs/data_cleaning.md) | Cleaning and transformation steps, with row counts |
 | [star_schema.md](docs/star_schema.md) | Fact and dimension tables, keys, the ER diagram, and the `rpt` reporting layer |
@@ -105,6 +107,16 @@ The full list is in [Assumptions_and_Limitations.md](docs/Assumptions_and_Limita
 - A **repeat customer** has two or more distinct, non-cancelled invoices.
 - A customer is **churned** after 90 or more days without a purchase.
 - Prices are unit selling prices in GBP. There is no cost data, so margin and profitability are out of scope.
+
+## Limitations
+
+The full list is in [Assumptions_and_Limitations.md](docs/Assumptions_and_Limitations.md). The ones that matter most:
+
+- **The churn score is not a forecast.** It describes who looks like a lapsed customer today (ROC-AUC 0.77, only slightly above a simple "fewer orders" rule). It is useful for ranking outreach.
+- **"Revenue at risk" (£3.30M) is past spend,** not what a win-back campaign would recover. The 90-day rule can also label seasonal buyers as churned, so the real figure is probably lower.
+- **Two years of data** show only two seasonal cycles, and December 2011 is a partial month.
+- **13.1% of revenue is guest checkouts,** which cannot be tied to a customer, so customer-level results describe 86.9% of revenue.
+- **The findings are descriptive, not causal,** and there is no cost data, so this is revenue, not profit. The recommendations are hypotheses that have not been tested.
 
 ## Reproducing the Project
 
