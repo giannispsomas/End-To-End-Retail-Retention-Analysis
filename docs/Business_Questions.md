@@ -103,3 +103,12 @@ These questions need statistical or machine-learning methods, so they live in th
 | Churn Risk | Churn rate, revenue at risk, churn probability |
 
 Q8 (revenue reconciliation) supports the Total Revenue figure on the Overview page and has no chart of its own.
+
+## Checks added after the first version
+
+| Check | Question it answers | Where |
+|---|---|---|
+| Mann-Whitney tests and bootstrap intervals | Are the repeat-customer, second-order and seasonality findings more than chance? | [Statistical_Tests.md](Statistical_Tests.md) |
+| Forward-looking churn model on a later period | Does the churn score work as a forecast, and does a more complex model help? | [Churn_Model_Evaluation.md](Churn_Model_Evaluation.md) |
+| Churn-threshold sensitivity and revenue forecast | How much does the £3.30M depend on the 90-day rule, and what revenue comes next? | [Sensitivity_and_Forecast.md](Sensitivity_and_Forecast.md) |
+| BG/NBD and Gamma-Gamma | What will existing customers spend in the next 12 months? | [Customer_Lifetime_Value.md](Customer_Lifetime_Value.md) |

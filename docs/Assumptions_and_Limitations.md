@@ -80,3 +80,12 @@ This document lists the definitions the analysis relies on and what it cannot co
 - **The proposed fixes are hypotheses.** Campaigns, account management and product audits in the brief follow from the findings but were not tested.
 - **The findings are descriptive.** They show what happened in this retailer's data over two years. They do not show why customers behave this way.
 - **The results may not transfer.** They describe one UK online gift retailer and its mostly UK customer base, and other businesses could show different patterns.
+
+## 6. Checks added after the first version
+
+Four later pieces of work test how far the findings can be trusted. They change how some limits should be read:
+
+- **The churn score** is still a snapshot, but a forward-looking version (label = no order in the next 90 days, tested on a later period) reaches ROC-AUC 0.79 to 0.80 against 0.75 for the original two features. Its probabilities over-predict churn in the test period ([Churn_Model_Evaluation.md](Churn_Model_Evaluation.md)).
+- **The 90-day rule** moves the revenue at risk between £4.27M (60 days) and £2.29M (180 days), and about a quarter of the customers labelled churned at 90 days order again within the next 90 days ([Sensitivity_and_Forecast.md](Sensitivity_and_Forecast.md)).
+- **The main findings** (repeat spend, 57-day median, autumn against winter) are far larger than chance ([Statistical_Tests.md](Statistical_Tests.md)).
+- **Lifetime value** (BG/NBD and Gamma-Gamma, checked on a hold-out period) shows the Lost segment holds 4.7% of the expected next-12-month spend ([Customer_Lifetime_Value.md](Customer_Lifetime_Value.md)). It assumes order value is independent of frequency, which the wholesale accounts break.
