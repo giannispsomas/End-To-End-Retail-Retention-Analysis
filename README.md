@@ -41,7 +41,7 @@ A page-by-page walkthrough with the measures behind each visual is in [Report_Gu
 **Approach**
 
 1. **SQL Server:** profile and clean the raw data, build a star schema, and create reporting views ([sql/](sql/)).
-2. **Python:** RFM segmentation with K-Means clustering, cohort retention, and churn prediction ([python/](python/)).
+2. **Python:** RFM segmentation with K-Means clustering, cohort retention, churn prediction, statistical tests, a forward-looking churn model, a revenue forecast and a lifetime value model ([python/](python/)).
 3. **Power BI:** a six-page interactive dashboard on top of the SQL views and Python outputs ([power_bi/](power_bi/)).
 
 ## Repository Structure
@@ -62,12 +62,22 @@ End-To-End-Retail-Retention-Analysis/
 │   ├── Business_Questions.md        Business questions, methods and findings
 │   ├── DAX_Measures.md              Every DAX measure with formula and purpose
 │   ├── Report_Guide.md              Page-by-page dashboard walkthrough
+│   ├── Statistical_Tests.md         Tests and intervals for the main findings
+│   ├── Churn_Model_Evaluation.md    Forward-looking churn model, tested on a later period
+│   ├── Sensitivity_and_Forecast.md  Churn-threshold sensitivity and revenue forecast
+│   ├── Customer_Lifetime_Value.md   BG/NBD and Gamma-Gamma lifetime value
 │   └── Assumptions_and_Limitations.md   Definitions, assumptions and limits
 ├── sql/                             T-SQL scripts (profiling, cleaning, star schema, RFM, business questions)
-├── python/                          Jupyter notebooks
+├── python/                          Notebooks and analysis scripts
 │   ├── rfmcustseg.ipynb             RFM segmentation and K-Means clustering
 │   ├── coh_ret_analysis.ipynb       Cohort retention
-│   └── churn_regr.ipynb             Churn prediction
+│   ├── churn_regr.ipynb             Churn prediction
+│   ├── 01_statistical_tests.py      Tests and bootstrap intervals
+│   ├── 02_churn_model_evaluation.py Forward-looking churn model and comparison
+│   ├── 03_sensitivity_and_forecast.py  Threshold sensitivity and revenue forecast
+│   ├── 04_customer_lifetime_value.py   BG/NBD and Gamma-Gamma
+│   ├── results/                     CSV results of the four scripts
+│   └── figures/                     Charts of the four scripts
 └── power_bi/                        Power BI report and dashboard screenshots
     ├── Retention_Analysis.pbix      Power BI report
     ├── Retention_Analysis.pdf       The same report exported as a PDF
@@ -87,6 +97,10 @@ End-To-End-Retail-Retention-Analysis/
 | [Business_Questions.md](docs/Business_Questions.md) | Each business question, its method, and its finding |
 | [DAX_Measures.md](docs/DAX_Measures.md) | Every measure and calculated column, with formulas |
 | [Report_Guide.md](docs/Report_Guide.md) | The six dashboard pages and how to read them |
+| [Statistical_Tests.md](docs/Statistical_Tests.md) | Tests and bootstrap intervals for the main findings: spend, time to a second order, seasonality |
+| [Churn_Model_Evaluation.md](docs/Churn_Model_Evaluation.md) | A forward-looking churn model tested on a later period, compared with a random forest and gradient boosting |
+| [Sensitivity_and_Forecast.md](docs/Sensitivity_and_Forecast.md) | How the revenue at risk changes with the churn threshold, and a six-month revenue forecast with ranges |
+| [Customer_Lifetime_Value.md](docs/Customer_Lifetime_Value.md) | BG/NBD and Gamma-Gamma lifetime value, validated on a hold-out period |
 | [Assumptions_and_Limitations.md](docs/Assumptions_and_Limitations.md) | Definitions, assumptions, and what the analysis cannot conclude |
 
 ## Dataset
@@ -137,7 +151,7 @@ The full list is in [Assumptions_and_Limitations.md](docs/Assumptions_and_Limita
    source venv/bin/activate       # Windows: venv\Scripts\Activate.ps1
    pip install -r requirements.txt
    ```
-5. **Run the notebooks** in [python/](python/): RFM and K-Means clustering, cohort retention, and churn prediction.
+5. **Run the notebooks** in [python/](python/): RFM and K-Means clustering, cohort retention, and churn prediction. Then run the four analysis scripts from the repository root, for example `python python/01_statistical_tests.py`. They read the `rpt` views of the `OnlineRetailII` database and write to `python/results/` and `python/figures/`.
 6. **Open the dashboard** in [power_bi/](power_bi/) with Power BI Desktop.
 
 ### Connecting Power BI to your own database

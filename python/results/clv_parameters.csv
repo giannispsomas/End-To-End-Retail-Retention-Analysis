@@ -1,0 +1,8 @@
+model,parameter,value
+BG/NBD,r,0.6692
+BG/NBD,alpha,9.124
+BG/NBD,a,0.1099
+BG/NBD,b,2.4323
+Gamma-Gamma,p,2.052
+Gamma-Gamma,q,3.6083
+Gamma-Gamma,v,513.1603

@@ -1,0 +1,5 @@
+Segment,customers,mean_p_alive,mean_clv_12m,median_clv_12m,total_clv_12m,share_of_total
+Core / Average Customers,3830,0.9576,1722.1261,998.8835,6595742.9524,0.7249
+Potential Champions,38,0.9417,35172.9295,24709.9446,1336571.321,0.1469
+Wholesale / B2B Outliers,4,0.9982,183721.5452,181354.3691,734886.1809,0.0808
+Churned / Lost Customers,1980,0.8243,217.72,158.7241,431085.5216,0.0474

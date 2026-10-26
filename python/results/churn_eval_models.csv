@@ -1,0 +1,7 @@
+model,cv_auc_train_period,cv_auc_sd,test_auc,average_precision,brier_score,precision_top_20pct,recall_top_20pct,lift_top
+Gradient boosting,0.8253,0.0152,0.7974,0.8146,0.1969,0.8668,0.307,1.5355
+Logistic regression (all features),0.8186,0.0151,0.7927,0.8142,0.2004,0.8725,0.3091,1.5456
+Random forest,0.8193,0.0132,0.7904,0.8011,0.201,0.8563,0.3033,1.517
+Rule: days since last order,,,0.7626,0.7984,,0.863,0.3057,1.5288
+Logistic regression (frequency + monetary),0.7811,0.0141,0.7503,0.7678,0.2094,0.8107,0.2872,1.4361
+Rule: fewer orders,,,0.747,0.7442,,0.804,0.2848,1.4243

@@ -1,0 +1,3 @@
+group,repeat_customers,one_time_customers,median_repeat,median_one_time,median_difference,diff_low,diff_high,mean_repeat,mean_one_time,cliffs_delta,mannwhitney_p
+all identified customers,4234,1618,1364.12,228.935,1135.185,1067.529875,1199.9973750000001,3899.857655880964,343.6340988875155,0.8394946320124392,0.0
+customers with 90+ days of history (not censored),4005,1251,1433.33,221.24,1212.09,1152.01875,1292.1399999999999,4061.022610486891,333.08227178257397,0.8555249183923772,0.0

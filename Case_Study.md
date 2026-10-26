@@ -57,6 +57,8 @@ I then modelled the data as a Kimball star schema in SQL Server, so the SQL, Pyt
 
 **5. Most of the revenue at risk is not in the "Lost" segment.** 2,967 customers (51%) have not bought for 90+ days and hold £3.30M of past spend. Of that, Core/Average customers hold £1.76M (53%) and the Lost segment £1.44M (43%). Retention effort aimed only at "Lost" customers would miss more than half of it.
 
+**6. The findings hold up statistically, and most of the future value is not in "Lost".** Repeat customers spend a median of £1,364 against £229 for one-time customers (difference £1,135, 95% interval £1,068 to £1,200), the median second order comes at 57 days (54 to 60), and customers order 8.6 points more often in October and November than in January and February ([Statistical_Tests.md](docs/Statistical_Tests.md)). A lifetime value model (BG/NBD and Gamma-Gamma, predicting the number of orders in a hold-out period within 2%) puts the expected spend of existing customers over the next 12 months at £9.1M, of which the "Lost" segment holds only 4.7% ([Customer_Lifetime_Value.md](docs/Customer_Lifetime_Value.md)).
+
 ## What I would recommend
 
 Ranked by revenue at stake and how easy each is to run. These are my judgement and **none has been tested**.
@@ -72,11 +74,11 @@ Ranked by revenue at stake and how easy each is to run. These are my judgement a
 
 I would rather state the limits than have a reader find them.
 
-**What the churn score is, and is not.** A customer is labelled *churned* if they have not ordered for more than 90 days. The logistic regression then gives every customer a *churn risk score* from order frequency and spend (recency is excluded, because it defines the label). The label and features come from the same snapshot, so the score describes who looks like a lapsed customer **today**. It is **not a forecast** of who will leave next. That is why customers already labelled "Churned / Lost" score high on the dashboard: they are the group the model describes, not a prediction about the future. The score is useful for ranking outreach, not for predicting individual behaviour. Its ROC-AUC is 0.77, only slightly above a simple "fewer orders means more likely churned" rule (0.76), so most of the signal is order frequency. A forward-looking version would use features up to a cut-off date and measure the outcome in the following 90 days.
+**What the churn score is, and is not.** A customer is labelled *churned* if they have not ordered for more than 90 days. The logistic regression then gives every customer a *churn risk score* from order frequency and spend (recency is excluded, because it defines the label). The label and features come from the same snapshot, so the score describes who looks like a lapsed customer **today**. It is **not a forecast** of who will leave next. That is why customers already labelled "Churned / Lost" score high on the dashboard: they are the group the model describes, not a prediction about the future. The score is useful for ranking outreach, not for predicting individual behaviour. Its ROC-AUC is 0.77, only slightly above a simple "fewer orders means more likely churned" rule (0.76), so most of the signal is order frequency. A forward-looking version uses features up to a cut-off date and measures the outcome in the following 90 days. I built it and tested it on a later period: with recency and the gap between orders added, the ROC-AUC is 0.79 to 0.80, against 0.75 for the original two features, and a more complex model (random forest, gradient boosting) does no better than logistic regression. The probabilities over-predict churn in the later period, so the ranking is reliable and the absolute numbers are not ([Churn_Model_Evaluation.md](docs/Churn_Model_Evaluation.md)).
 
 **"Revenue at risk" is past spend.** The £3.30M is what churned customers spent historically. It is not a forecast, and it is not what a win-back campaign would recover.
 
-**The 90-day rule can mislabel seasonal buyers.** Returns are strongest in autumn, so some customers counted as churned in the summer will come back in October. The real figure at risk is probably lower than £3.30M.
+**The 90-day rule can mislabel seasonal buyers.** Returns are strongest in autumn, so some customers counted as churned in the summer will come back in October. The real figure at risk is probably lower than £3.30M: moving the threshold from 60 to 180 days moves it from £4.27M to £2.29M, and on earlier snapshots about a quarter of the customers labelled churned at 90 days ordered again within the next 90 days ([Sensitivity_and_Forecast.md](docs/Sensitivity_and_Forecast.md)).
 
 **Two kinds of "inactive".** "Lost" (1,980 customers) is a K-Means segment. "Churned" (2,967) is the 90-day rule. They overlap but are not the same group.
 
@@ -84,9 +86,10 @@ I would rather state the limits than have a reader find them.
 
 ## What I would do next
 
-- Rebuild the churn model with a time-based split to turn the risk score into a real forecast, and add product mix, tenure and average gap between orders as features.
+- Add product mix to the churn model, and recalibrate its probabilities for each season.
 - Test recommendation 1 with a controlled follow-up message and compare second-order rates against a group that gets none.
-- Replace the fixed 90-day rule with a threshold based on each customer's own ordering rhythm.
+- Replace the fixed 90-day rule with a threshold based on each customer's own ordering rhythm. The BG/NBD model already gives a probability of being still active for every customer.
+- Fit seasonal forecasts when more than two years of data are available. The six-month revenue forecast has a wide range because only 12 year-on-year ratios exist ([Sensitivity_and_Forecast.md](docs/Sensitivity_and_Forecast.md)).
 
 ---
 
